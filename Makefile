@@ -10,14 +10,14 @@ helm:
 	@helm repo add camunda https://helm.camunda.io
 	@helm repo update
 
-camunda: helm
+install: helm
 	@helm install ${NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
-
-curl:
-	kubectl run curl --image=curlimages/curl -i --tty -- sh
 
 uninstall:
 	@helm uninstall ${NAME}
 
 destroy:
 	@kind delete cluster --name ${CLUSTER}
+
+curl:
+	kubectl run curl --image=curlimages/curl -i --tty -- sh
