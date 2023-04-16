@@ -14,7 +14,7 @@ camunda: helm
 	@helm install ${NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
 
 curl:
-	@kubectl run curl --image=curlimages/curl -i --tty -- sh
+	kubectl run curl --image=curlimages/curl -i --tty -- sh
 
 uninstall:
 	@helm uninstall ${NAME}
