@@ -16,5 +16,8 @@ camunda: helm
 curl:
 	@kubectl run curl --image=curlimages/curl -i --tty -- sh
 
+uninstall:
+	@helm uninstall ${NAME}
+
 destroy:
 	@kind delete cluster --name ${CLUSTER}
