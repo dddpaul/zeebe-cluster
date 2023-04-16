@@ -21,3 +21,7 @@ destroy:
 
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
+
+forward:
+	kubectl port-forward svc/dev-operate 8081:80 --address 0.0.0.0 & \
+	kubectl port-forward svc/dev-zeebe-gateway 26500:26500 --address 0.0.0.0
