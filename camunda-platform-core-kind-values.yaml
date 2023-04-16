@@ -31,6 +31,11 @@ connectors:
   enabled: true
   inbound:
     mode: disabled
+  resources:
+    requests:
+      cpu: "100m"
+    limits:
+      cpu: "1000m"
 
 # Disable tasklist (we don't need user tasks)
 tasklist:
