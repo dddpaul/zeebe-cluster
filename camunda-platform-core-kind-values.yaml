@@ -30,6 +30,10 @@ connectors:
   inbound:
     mode: disabled
 
+# Disable tasklist (we don't need user tasks)
+tasklist:
+  enabled: false
+
 # Configure elastic search to make it running for local development
 elasticsearch:
   imageTag: 7.17.3
