@@ -45,7 +45,7 @@ elasticsearch:
       memory: "512M"
     limits:
       cpu: "1000m"
-      memory: "512M"
+      memory: "1536M"
 
   # Request smaller persistent volumes.
   volumeClaimTemplate:
