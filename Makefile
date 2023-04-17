@@ -8,10 +8,12 @@ cluster:
 
 helm:
 	@helm repo add camunda https://helm.camunda.io
+	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo update
 
 install: helm
 	@helm install ${NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
+	@helm install ${NAME} prometheus-community/kube-prometheus-stack
 
 uninstall:
 	@helm uninstall ${NAME}
