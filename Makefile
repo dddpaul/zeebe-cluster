@@ -12,17 +12,17 @@ load: cluster
 	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.3 --name ${CLUSTER}
 
 helm:
-	@helm repo add camunda https://helm.camunda.io
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	@helm repo add camunda https://helm.camunda.io
 	@helm repo update
 
 install: helm
-	@helm install ${HELM_ZEEBE_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
 	@helm install ${HELM_PROM_NAME} prometheus-community/kube-prometheus-stack
+	@helm install ${HELM_ZEEBE_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
 
 uninstall:
-	@helm uninstall ${HELM_ZEEBE_NAME}
 	@helm uninstall ${HELM_PROM_NAME}
+	@helm uninstall ${HELM_ZEEBE_NAME}
 
 destroy:
 	@kind delete cluster --name ${CLUSTER}
