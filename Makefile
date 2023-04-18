@@ -1,6 +1,6 @@
 CLUSTER=camunda-platform
-ZEEBE_NAME=zeebe
-PROM_NAME=prom
+HELM_ZEEBE_NAME=zeebe
+HELM_PROM_NAME=prom
 
 cluster:
 	@kind create cluster --name ${CLUSTER}
@@ -17,12 +17,12 @@ helm: load
 	@helm repo update
 
 install: helm
-	@helm install ${ZEEBE_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
+	@helm install ${HELM_ZEEBE_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
 	@helm install ${PROM_NAME} prometheus-community/kube-prometheus-stack
 
 uninstall:
-	@helm uninstall ${ZEEBE_NAME}
-	@helm uninstall ${PROM_NAME}
+	@helm uninstall ${HELM_ZEEBE_NAME}
+	@helm uninstall ${HELM_PROM_NAME}
 
 destroy:
 	@kind delete cluster --name ${CLUSTER}
@@ -31,5 +31,7 @@ curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
 
 forward:
-	kubectl port-forward svc/dev-operate 8081:80 --address 0.0.0.0 & \
-	kubectl port-forward svc/dev-zeebe-gateway 26500:26500 --address 0.0.0.0
+	kubectl port-forward svc/${HELM_ZEEBE_NAME}-operate 8081:80 --address 0.0.0.0 & \
+	kubectl port-forward svc/${HELM_ZEEBE_NAME}-zeebe-gateway 26500:26500 --address 0.0.0.0 & \
+	kubectl port-forward svc/${HELM_PROM_NAME}-grafana 8082:80 --address 0.0.0.0 & \
+	kubectl port-forward svc/${HELM_PROM_NAME}-kube-prometheus-stack-prometheus 9090:9090 --address 0.0.0.0
