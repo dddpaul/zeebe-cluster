@@ -7,7 +7,11 @@ cluster:
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
-helm:
+load: cluster
+	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.3 --name ${CLUSTER}
+
+helm: load
 	@helm repo add camunda https://helm.camunda.io
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo update
@@ -28,5 +32,4 @@ curl:
 
 forward:
 	kubectl port-forward svc/dev-operate 8081:80 --address 0.0.0.0 & \
-	kubectl port-forward svc/dev-zeebe-gateway 26500:26500 --address 0.0.0.0 \
-	kubectl port-forward svc/dev-zeebe-gateway 26500:26500 --address 0.0.0.0 \
+	kubectl port-forward svc/dev-zeebe-gateway 26500:26500 --address 0.0.0.0
