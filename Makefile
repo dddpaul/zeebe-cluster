@@ -34,4 +34,4 @@ forward:
 	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-operate 8081:80 --address 0.0.0.0 & \
 	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-zeebe-gateway 26500:26500 --address 0.0.0.0 & \
 	kubectl port-forward svc/${HELM_METRICS_NAME}-grafana 8082:80 --address 0.0.0.0 & \
-	kubectl port-forward svc/${HELM_METRICS_NAME}-kube-prometheus-stack-prometheus 9090:9090 --address 0.0.0.0
+	kubectl port-forward svc/${HELM_METRICS_NAME}-kube-prometheus-st-prometheus 9090:9090 --address 0.0.0.0
