@@ -14,8 +14,11 @@ identity:
 optimize:
   enabled: false
 
+# Release label should match Helm release name
 prometheusServiceMonitor:
   enabled: true
+  labels:
+    release: prom
 
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
@@ -68,4 +71,3 @@ elasticsearch:
     resources:
       requests:
         storage: 15Gi
-
