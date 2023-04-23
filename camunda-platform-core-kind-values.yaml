@@ -29,6 +29,9 @@ zeebe:
   pvcSize: 10Gi
   readinessProbe:
     probePath: /actuator/health/readiness
+  env:
+    - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
+      value: "false"
 
 zeebe-gateway:
   replicas: 1
