@@ -31,6 +31,8 @@ curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
 
 forward:
+	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-zeebe 1099:1099 --address 0.0.0.0 & \
+	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-zeebe 1100:1100 --address 0.0.0.0 & \
 	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-operate 8081:80 --address 0.0.0.0 & \
 	kubectl port-forward svc/${HELM_CAMUNDA_NAME}-zeebe-gateway 26500:26500 --address 0.0.0.0 & \
 	kubectl port-forward svc/${HELM_METRICS_NAME}-grafana 8082:80 --address 0.0.0.0 & \
