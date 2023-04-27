@@ -38,6 +38,8 @@ zeebe:
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
       value: "0s"
+    - name: ZEEBE_BROKER_EXPERIMENTAL_ROCKSDB_DISABLEWAL
+      value: "true"
     - name: JAVA_TOOL_OPTIONS
       value: -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/zeebe/data -XX:ErrorFile=/usr/local/zeebe/data/zeebe_error%p.log -XX:+ExitOnOutOfMemoryError -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1100 -Djava.rmi.server.hostname=192.168.0.100 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false 
   service:
