@@ -28,7 +28,7 @@ zeebe:
   clusterSize: 1
   partitionCount: 1
   replicationFactor: 1
-  cpuThreadCount: 4
+  cpuThreadCount: 2
   ioThreadCount: 2
   resources:
     requests:
