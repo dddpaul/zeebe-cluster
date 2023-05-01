@@ -28,6 +28,13 @@ zeebe:
   clusterSize: 1
   partitionCount: 1
   replicationFactor: 1
+  resources:
+    requests:
+      cpu: 800m
+      memory: 2000Mi
+    limits:
+      cpu: 960m
+      memory: 16000Mi
   pvcSize: 10Gi
   persistenceType: memory
   readinessProbe:
