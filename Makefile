@@ -3,7 +3,7 @@ HELM_CAMUNDA_NAME=camunda
 HELM_METRICS_NAME=metrics
 
 cluster:
-	@kind create cluster --name ${CLUSTER}
+	@kind create cluster --name ${CLUSTER} --config kind-config.yaml
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
