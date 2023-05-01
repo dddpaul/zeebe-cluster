@@ -32,12 +32,12 @@ zeebe:
   ioThreadCount: 2
   resources:
     requests:
-      cpu: 6000m
+      cpu: 2000m
       memory: 2000Mi
     limits:
-      cpu: 18000m
-      memory: 16000Mi
-  pvcSize: 10Gi
+      cpu: 4000m
+      memory: 8000Mi
+  pvcSize: 5Gi
   persistenceType: memory
   readinessProbe:
     probePath: /actuator/health/readiness
