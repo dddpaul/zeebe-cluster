@@ -63,6 +63,14 @@ zeebe:
 
 zeebe-gateway:
   replicas: 1
+  resources:
+  requests:
+    cpu: 400m
+    memory: 450Mi
+  limits:
+    cpu: 1000m
+    memory: 450Mi
+
 
 connectors:
   enabled: false
