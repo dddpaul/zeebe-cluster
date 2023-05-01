@@ -30,10 +30,10 @@ zeebe:
   replicationFactor: 1
   resources:
     requests:
-      cpu: 2000m
+      cpu: 6000m
       memory: 2000Mi
     limits:
-      cpu: 4000m
+      cpu: 18000m
       memory: 16000Mi
   pvcSize: 10Gi
   persistenceType: memory
