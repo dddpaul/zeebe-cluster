@@ -29,6 +29,7 @@ zeebe:
   partitionCount: 1
   replicationFactor: 1
   pvcSize: 10Gi
+  persistenceType: memory
   readinessProbe:
     probePath: /actuator/health/readiness
   env:
