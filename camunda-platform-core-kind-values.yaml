@@ -25,10 +25,10 @@ prometheusServiceMonitor:
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
 zeebe:
-  clusterSize: 2
-  partitionCount: 2
+  clusterSize: 3
+  partitionCount: 6
   replicationFactor: 1
-  cpuThreadCount: 6
+  cpuThreadCount: 2
   ioThreadCount: 2
   resources:
     requests:
