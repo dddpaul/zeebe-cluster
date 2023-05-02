@@ -68,7 +68,7 @@ zeebe-gateway:
   resources:
   requests:
     cpu: 400m
-    memory: 900Mi
+    memory: 500Mi
   limits:
     cpu: 1000m
     memory: 900Mi
