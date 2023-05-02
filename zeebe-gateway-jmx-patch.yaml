@@ -1,0 +1,10 @@
+spec:
+  ports:
+    - name: jmx
+      protocol: TCP
+      port: 1101
+      targetPort: 1101
+    - name: rmi
+      protocol: TCP
+      port: 1102
+      targetPort: 1102
