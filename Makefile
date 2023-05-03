@@ -6,6 +6,7 @@ cluster:
 	@kind create cluster --name ${CLUSTER} --config kind-config.yaml
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
+	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
 load: cluster
 	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.3
@@ -19,7 +20,7 @@ helm:
 install: helm
 	@helm install ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack
 	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
-	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml 
+	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
