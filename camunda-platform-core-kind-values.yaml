@@ -47,7 +47,7 @@ zeebe:
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
       value: "true"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
-      value: "gradient2"
+      value: "aimd"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
