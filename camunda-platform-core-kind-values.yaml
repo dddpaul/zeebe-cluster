@@ -45,7 +45,9 @@ zeebe:
     camunda/app: broker
   env:
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
-      value: "false"
+      value: "true"
+    - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
+      value: "gradient2"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
