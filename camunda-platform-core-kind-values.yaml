@@ -48,6 +48,12 @@ zeebe:
       value: "true"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
       value: "aimd"
+    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_INITIALLIMIT
+      value: "1000"
+    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_MINLIMIT
+      value: "100"
+    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_MAXLIMIT
+      value: "2000"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
