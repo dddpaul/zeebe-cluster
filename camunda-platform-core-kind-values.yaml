@@ -69,10 +69,10 @@ zeebe-gateway:
   replicas: 1
   resources:
   requests:
-    cpu: 400m
+    cpu: 1000m
     memory: 500Mi
   limits:
-    cpu: 1000m
+    cpu: 2000m
     memory: 900Mi
   nodeSelector:
     camunda/app: gateway
