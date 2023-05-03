@@ -49,7 +49,7 @@ zeebe:
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
-      value: "5s"
+      value: "0s"
     - name: ZEEBE_BROKER_EXPERIMENTAL_ROCKSDB_DISABLEWAL
       value: "true"
     - name: ZEEBE_BROKER_DATA_SNAPSHOTPERIOD
