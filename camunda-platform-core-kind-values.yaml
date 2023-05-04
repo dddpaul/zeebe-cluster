@@ -45,7 +45,7 @@ zeebe:
     camunda/app: broker
   env:
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
-      value: "true"
+      value: "false"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
       value: "aimd"
     - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_INITIALLIMIT
