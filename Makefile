@@ -29,5 +29,8 @@ uninstall:
 destroy:
 	@kind delete cluster --name ${CLUSTER}
 
+rebalance:
+	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
+
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
