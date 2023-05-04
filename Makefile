@@ -22,6 +22,16 @@ install: helm
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 
+install-camunda:
+	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
+	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
+	@kubectl apply -f zeebe-nodeports.yaml
+	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=60s
+	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-1 --timeout=60s
+	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-2 --timeout=60s
+	@kubectl wait --namespace default --for=condition=ready pod --selector=app.kubernetes.io/name=zeebe-gateway --timeout=60s
+	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
+
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
 	@helm uninstall ${HELM_CAMUNDA_NAME}
