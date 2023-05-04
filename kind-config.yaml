@@ -15,3 +15,7 @@ nodes:
 - role: worker
   labels:
     camunda/app: gateway
+  extraPortMappings:
+  - hostPort: 9600
+    containerPort: 30600
+    protocol: TCP
