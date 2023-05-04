@@ -1,13 +1,52 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: grafana-nodeports
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 30000
+    port: 3000
+  selector:
+    app.kubernetes.io/name: grafana
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-nodeports
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 30001
+    port: 9090
+  selector:
+    app.kubernetes.io/name: prometheus
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
   name: zeebe-gateway-nodeports
 spec:
   type: NodePort
   ports:
   - name: http
-    nodePort: 30600
+    nodePort: 30100
     port: 9600
+  - name: grpc
+    nodePort: 30101
+    port: 26500
+  - name: jmx
+    nodePort: 30102
+    port: 1101
+  - name: rmi
+    nodePort: 30103
+    port: 1102
   selector:
     app.kubernetes.io/name: zeebe-gateway
 
@@ -16,12 +55,30 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana-nodeports
+  name: zeebe-broker-0-nodeports
+spec:
+  type: NodePort
+  ports:
+  - name: jmx
+    nodePort: 30200
+    port: 1099
+  - name: rmi
+    nodePort: 30201
+    port: 1100
+  selector:
+    statefulset.kubernetes.io/pod-name: camunda-zeebe-0
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zeebe-operate-nodeports
 spec:
   type: NodePort
   ports:
   - name: http
-    nodePort: 30080
-    port: 3000
+    nodePort: 30300
+    port: 80
   selector:
-    app.kubernetes.io/name: grafana
+    app.kubernetes.io/name: zeebe-operate

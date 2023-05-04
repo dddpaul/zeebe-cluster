@@ -16,9 +16,30 @@ nodes:
   labels:
     camunda/app: gateway
   extraPortMappings:
-  - hostPort: 9600
-    containerPort: 30600
+  - containerPort: 30000
+    hostPort: 8081
     protocol: TCP
-  - hostPort: 8082
-    containerPort: 30080
+  - containerPort: 30001
+    hostPort: 8082
+    protocol: TCP
+  - containerPort: 30100
+    hostPort: 9600
+    protocol: TCP
+  - containerPort: 30101
+    hostPort: 26500
+    protocol: TCP
+  - containerPort: 30102
+    hostPort: 1101
+    protocol: TCP
+  - containerPort: 30103
+    hostPort: 1102
+    protocol: TCP
+  - containerPort: 30200
+    hostPort: 1099
+    protocol: TCP
+  - containerPort: 30201
+    hostPort: 1100
+    protocol: TCP
+  - containerPort: 30300
+    hostPort: 8083
     protocol: TCP
