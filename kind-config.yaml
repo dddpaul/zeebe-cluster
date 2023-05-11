@@ -4,16 +4,7 @@ nodes:
 - role: control-plane
 - role: worker
   labels:
-    camunda/app: broker
-- role: worker
-  labels:
-    camunda/app: broker
-- role: worker
-  labels:
-    camunda/app: broker
-- role: worker
-  labels:
-    camunda/app: gateway
+    camunda/app: metrics
   extraPortMappings:
   - containerPort: 30000
     hostPort: 8081
@@ -21,6 +12,10 @@ nodes:
   - containerPort: 30001
     hostPort: 8082
     protocol: TCP
+- role: worker
+  labels:
+    camunda/app: gateway
+  extraPortMappings:
   - containerPort: 30100
     hostPort: 9600
     protocol: TCP
@@ -33,12 +28,26 @@ nodes:
   - containerPort: 30103
     hostPort: 1102
     protocol: TCP
+- role: worker
+  labels:
+    camunda/app: broker
+  extraPortMappings:
   - containerPort: 30200
     hostPort: 1099
     protocol: TCP
   - containerPort: 30201
     hostPort: 1100
     protocol: TCP
+- role: worker
+  labels:
+    camunda/app: broker
+- role: worker
+  labels:
+    camunda/app: broker
+- role: worker
+  labels:
+    camunda/app: operate
+  extraPortMappings:
   - containerPort: 30300
     hostPort: 8083
     protocol: TCP
