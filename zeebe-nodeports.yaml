@@ -81,4 +81,4 @@ spec:
     nodePort: 30300
     port: 80
   selector:
-    app.kubernetes.io/name: zeebe-operate
+    app.kubernetes.io/name: operate
