@@ -1,0 +1,7 @@
+prometheus:
+  nodeSelector:
+     camunda/app: metrics
+
+grafana:
+  nodeSelector:
+     camunda/app: metrics

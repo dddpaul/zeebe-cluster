@@ -117,10 +117,14 @@ tasklist:
 
 operate:
   enabled: true
+  nodeSelector:
+    camunda/app: operate
 
 # Configure elastic search to make it running for local development
 elasticsearch:
   enabled: true
+  nodeSelector:
+    camunda/app: operate
   imageTag: 7.17.3
   replicas: 1
   minimumMasterNodes: 1

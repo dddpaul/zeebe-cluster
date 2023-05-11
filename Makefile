@@ -7,7 +7,7 @@ cluster:
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
-load: cluster
+load:
 	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.3
 	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.3 --name ${CLUSTER}
 
@@ -17,7 +17,7 @@ helm:
 	@helm repo update
 
 install-metrics:
-	@helm install ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack
+	@helm install ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 
 install-camunda:
 	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
