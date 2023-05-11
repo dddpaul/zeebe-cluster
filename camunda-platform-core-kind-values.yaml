@@ -7,7 +7,7 @@ global:
   image:
     tag: 8.2.3
   elasticsearch:
-    disableExporter: true
+    disableExporter: false
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -116,11 +116,11 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: false
+  enabled: true
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: false
+  enabled: true
   imageTag: 7.17.3
   replicas: 1
   minimumMasterNodes: 1
