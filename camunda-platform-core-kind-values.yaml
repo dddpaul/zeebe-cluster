@@ -38,7 +38,7 @@ zeebe:
       cpu: 6000m
       memory: 10000Mi
   pvcSize: 5Gi
-  persistenceType: disk
+  persistenceType: memory
   # extraVolumes:
   #   - name: runtime
   #     emptyDir:
