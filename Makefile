@@ -43,3 +43,6 @@ rebalance:
 
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
+
+loadtest:
+	java -jar ${HOME}/dev/zeebe-monit/build/libs/zeebe-monit-0.0.1-SNAPSHOT.jar --spring.main.web-application-type=none --app.starter.enabled=true --app.starter.threads=12 --app.starter.count=100000
