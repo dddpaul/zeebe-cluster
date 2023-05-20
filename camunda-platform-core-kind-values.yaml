@@ -33,10 +33,10 @@ zeebe:
   resources:
     requests:
       cpu: 6000m
-      memory: 10000Mi
+      memory: 16000Mi
     limits:
       cpu: 6000m
-      memory: 10000Mi
+      memory: 16000Mi
   pvcSize: 5Gi
   persistenceType: memory
   # extraVolumes:
