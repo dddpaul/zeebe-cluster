@@ -31,6 +31,10 @@ tmux select-pane -D
 tmux split-window -h
 tmux resize-pane -R 40
 tmux send-keys -t $session 'watch -n1 "zbctl --insecure status"' Enter
+tmux split-window -v
+tmux send-keys -t $session 'watch -n1 "kubectl exec camunda-zeebe-0 -- du -h -d1 /usr/local/zeebe/data/raft-partition/partitions/"' Enter
+
+# move to bigger lower left pane
 tmux select-pane -L
 
 attach
