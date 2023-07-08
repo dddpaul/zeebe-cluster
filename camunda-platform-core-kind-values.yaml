@@ -33,12 +33,12 @@ zeebe:
   resources:
     requests:
       cpu: 6000m
-      memory: 16000Mi
+      memory: 10000Mi
     limits:
       cpu: 6000m
-      memory: 16000Mi
+      memory: 10000Mi
   pvcSize: 5Gi
-  persistenceType: memory
+  persistenceType: disk
   # extraVolumes:
   #   - name: runtime
   #     emptyDir:
