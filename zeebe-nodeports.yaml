@@ -82,3 +82,18 @@ spec:
     port: 8080
   selector:
     app.kubernetes.io/name: operate
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zeebe-elasticsearch-nodeports
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 30301
+    port: 9200
+  selector:
+    statefulset.kubernetes.io/pod-name: elasticsearch-master-0
