@@ -1,5 +1,6 @@
 CLUSTER=camunda-platform
 HELM_CAMUNDA_NAME=camunda
+HELM_KIBANA_NAME=kibana
 HELM_METRICS_NAME=metrics
 
 cluster:
@@ -31,11 +32,15 @@ install-camunda:
 	@kubectl wait --namespace default --for=condition=ready pod --selector=app.kubernetes.io/name=zeebe-gateway --timeout=300s
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
-install: helm install-metrics install-camunda
+install-kibana:
+	@helm install ${HELM_KIBANA_NAME} ./helm-charts/elastic/kibana -f kibana-kind-values.yml
+
+install: helm install-metrics install-camunda install-kibana
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
 	@helm uninstall ${HELM_CAMUNDA_NAME}
+	@helm uninstall ${HELM_KIBANA_NAME}
 
 destroy:
 	@kind delete cluster --name ${CLUSTER}
