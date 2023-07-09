@@ -97,3 +97,18 @@ spec:
     port: 9200
   selector:
     statefulset.kubernetes.io/pod-name: elasticsearch-master-0
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zeebe-kibana-nodeports
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    nodePort: 30302
+    port: 8080
+  selector:
+    statefulset.kubernetes.io/pod-name: kibana
