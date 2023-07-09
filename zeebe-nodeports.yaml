@@ -109,6 +109,6 @@ spec:
   ports:
   - name: http
     nodePort: 30302
-    port: 8080
+    port: 5601
   selector:
-    statefulset.kubernetes.io/pod-name: kibana
+    app: kibana
