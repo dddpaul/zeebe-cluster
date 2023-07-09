@@ -51,6 +51,8 @@ zeebe:
   nodeSelector:
     camunda/app: broker
   env:
+    - name: TZ
+      value: "Europe/Moscow"
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
       value: "false"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
@@ -98,6 +100,8 @@ zeebe-gateway:
   nodeSelector:
     camunda/app: gateway
   env:
+    - name: TZ
+      value: "Europe/Moscow"
     - name: ZEEBE_GATEWAY_LONGPOLLING_ENABLED
       value: "true"
     - name: JAVA_TOOL_OPTIONS
@@ -121,6 +125,9 @@ operate:
   enabled: true
   nodeSelector:
     camunda/app: operate
+  env:
+    - name: TZ
+      value: "Europe/Moscow"
 
 # Configure elastic search to make it running for local development
 elasticsearch:
@@ -132,6 +139,9 @@ elasticsearch:
   minimumMasterNodes: 1
   # Allow no backup for single node setups
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+  env:
+    - name: TZ
+      value: "Europe/Moscow"
 
   # Allocate smaller chunks of memory per pod.
   resources:

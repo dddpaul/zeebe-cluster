@@ -10,3 +10,7 @@ protocol: http
 
 nodeSelector:
     camunda/app: operate
+
+env:
+  - name: TZ
+    value: "Europe/Moscow"
