@@ -9,7 +9,9 @@ cluster:
 
 load:
 	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+	@docker pull docker.elastic.co/kibana/kibana:7.17.3
 	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.3 --name ${CLUSTER}
+	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.3 --name ${CLUSTER}
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
