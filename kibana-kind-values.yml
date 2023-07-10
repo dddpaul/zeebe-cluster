@@ -1,6 +1,6 @@
 ---
 elasticsearchHosts: http://elasticsearch-master:9200
-imageTag: 7.17.3
+imageTag: 7.17.11
 
 kibanaConfig:
   kibana.yml: |

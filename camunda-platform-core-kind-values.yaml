@@ -137,7 +137,7 @@ elasticsearch:
   enabled: true
   nodeSelector:
     camunda/app: operate
-  imageTag: 7.17.3
+  imageTag: 7.17.11
   replicas: 1
   minimumMasterNodes: 1
   # Allow no backup for single node setups
