@@ -123,9 +123,10 @@ tasklist:
 
 operate:
   enabled: true
-  level:
-    ROOT: INFO
-    io.camunda.operate: INFO
+  logging:
+    level:
+      ROOT: INFO
+      io.camunda.operate: INFO
   nodeSelector:
     camunda/app: operate
   env:
