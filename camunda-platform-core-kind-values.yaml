@@ -145,6 +145,8 @@ elasticsearch:
   extraEnvs:
     - name: "xpack.security.enabled"
       value: "false"
+    - name: "xpack.monitoring.collection.enabled"
+      value: "true"
   env:
     - name: TZ
       value: "Europe/Moscow"
