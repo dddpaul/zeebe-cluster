@@ -142,6 +142,9 @@ elasticsearch:
   minimumMasterNodes: 1
   # Allow no backup for single node setups
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+  extraEnvs:
+    - name: "xpack.security.enabled"
+      value: "false"
   env:
     - name: TZ
       value: "Europe/Moscow"
