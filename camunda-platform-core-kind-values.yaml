@@ -129,6 +129,13 @@ operate:
       io.camunda.operate: INFO
   nodeSelector:
     camunda/app: operate
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "400M"
+    limits:
+      cpu: "1000m"
+      memory: "400M"
   env:
     - name: TZ
       value: "Europe/Moscow"
@@ -155,8 +162,8 @@ elasticsearch:
   # Allocate smaller chunks of memory per pod.
   resources:
     requests:
-      cpu: "100m"
-      memory: "512M"
+      cpu: "1000m"
+      memory: "1536M"
     limits:
       cpu: "1000m"
       memory: "1536M"
