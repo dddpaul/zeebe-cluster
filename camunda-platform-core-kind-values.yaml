@@ -162,10 +162,10 @@ elasticsearch:
   # Allocate smaller chunks of memory per pod.
   resources:
     requests:
-      cpu: "1000m"
+      cpu: "3000m"
       memory: "1536M"
     limits:
-      cpu: "1000m"
+      cpu: "3000m"
       memory: "1536M"
 
   # Request smaller persistent volumes.
