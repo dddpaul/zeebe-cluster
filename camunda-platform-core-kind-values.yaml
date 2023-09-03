@@ -132,10 +132,10 @@ operate:
   resources:
     requests:
       cpu: "1000m"
-      memory: "400M"
+      memory: "800M"
     limits:
       cpu: "1000m"
-      memory: "400M"
+      memory: "800M"
   env:
     - name: TZ
       value: "Europe/Moscow"
