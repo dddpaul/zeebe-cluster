@@ -144,9 +144,9 @@ operate:
 elasticsearch:
   enabled: true
   nodeSelector:
-    camunda/app: operate
+    camunda/app: elasticsearch
   imageTag: 7.17.11
-  replicas: 1
+  replicas: 3
   minimumMasterNodes: 1
   # Allow no backup for single node setups
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
@@ -158,17 +158,13 @@ elasticsearch:
   env:
     - name: TZ
       value: "Europe/Moscow"
-
-  # Allocate smaller chunks of memory per pod.
   resources:
     requests:
-      cpu: "3000m"
+      cpu: "2000m"
       memory: "1536M"
     limits:
-      cpu: "3000m"
+      cpu: "2000m"
       memory: "1536M"
-
-  # Request smaller persistent volumes.
   volumeClaimTemplate:
     accessModes: [ "ReadWriteOnce" ]
     storageClassName: "standard"

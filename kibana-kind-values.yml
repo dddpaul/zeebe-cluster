@@ -9,7 +9,8 @@ kibanaConfig:
 protocol: http
 
 nodeSelector:
-    camunda/app: operate
+  camunda/app: elasticsearch
+  elk/app: kibana
 
 env:
   - name: TZ
