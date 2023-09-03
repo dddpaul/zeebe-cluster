@@ -1,4 +1,4 @@
-CLUSTER=camunda-platform
+CLUSTER=camunda
 HELM_CAMUNDA_NAME=camunda
 HELM_KIBANA_NAME=kibana
 HELM_METRICS_NAME=metrics
@@ -8,12 +8,12 @@ cluster:
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
-# camunda-platform-worker6 run operate, elasticsearch and kibana pods
+# worker7 runs kibana, worker7-9 run elasticsearch
 load:
 	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.11
 	@docker pull docker.elastic.co/kibana/kibana:7.17.11
-	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker7,camunda-platform-worker8,camunda-platform-worker9
-	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker7
+	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
+	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -24,7 +24,7 @@ install-metrics:
 	@helm install ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 
 install-camunda:
-	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-platform-core-kind-values.yaml
+	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
