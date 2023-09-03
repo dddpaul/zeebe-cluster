@@ -12,8 +12,8 @@ cluster:
 load:
 	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.11
 	@docker pull docker.elastic.co/kibana/kibana:7.17.11
-	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker6
-	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker6
+	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker7,camunda-platform-worker8,camunda-platform-worker9
+	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes camunda-platform-worker7
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
