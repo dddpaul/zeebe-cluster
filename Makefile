@@ -21,10 +21,10 @@ helm:
 	@helm repo update
 
 install-metrics:
-	@helm install ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
+	@helm upgrade ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 
 install-camunda:
-	@helm install ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml
+	@helm upgrade ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
@@ -34,7 +34,7 @@ install-camunda:
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
 install-kibana:
-	@helm install ${HELM_KIBANA_NAME} ./helm-charts/elastic/kibana -f kibana-kind-values.yml
+	@helm upgrade ${HELM_KIBANA_NAME} ./helm-charts/elastic/kibana -f kibana-kind-values.yml
 
 install: helm install-metrics install-camunda install-kibana
 
