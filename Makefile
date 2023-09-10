@@ -36,7 +36,7 @@ install-camunda:
 install-kibana:
 	@helm upgrade -i ${HELM_KIBANA_NAME} ./helm-charts/elastic/kibana -f kibana-kind-values.yml
 
-install: helm install-metrics install-camunda install-kibana
+install: helm install-metrics install-kibana install-camunda
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
