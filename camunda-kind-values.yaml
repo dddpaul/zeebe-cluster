@@ -5,7 +5,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.2.13
+    tag: 8.3.0-alpha6
   elasticsearch:
     disableExporter: false
 
