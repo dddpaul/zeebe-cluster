@@ -160,6 +160,8 @@ elasticsearch:
     masterOnly: false
     replicaCount: 3
     heapSize: 768m
+    persistence:
+      size: 12Gi
     nodeSelector:
       camunda/app: elasticsearch
     resources:
