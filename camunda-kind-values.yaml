@@ -159,6 +159,7 @@ elasticsearch:
   master:
     masterOnly: false
     replicaCount: 3
+    heapSize: 768m
     nodeSelector:
       camunda/app: elasticsearch
     resources:
