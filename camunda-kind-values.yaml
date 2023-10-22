@@ -176,6 +176,8 @@ elasticsearch:
       value: "Europe/Moscow"
   # Used when global.kibanaEnabled=true
   kibana:
+    persistence:
+      size: 4Gi
     image:
       repository: bitnami/kibana
       tag: 8.7.1
