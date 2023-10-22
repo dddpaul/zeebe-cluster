@@ -171,15 +171,14 @@ elasticsearch:
   extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
-
-# Used when global.kibanaEnabled=true
-kibana:
-  image:
-    repository: bitnami/kibana
-    tag: 8.7.1
-  nodeSelector:
-    camunda/app: elasticsearch
-    elk/app: kibana
-  extraEnvVars:
-    - name: TZ
-      value: "Europe/Moscow"
+  # Used when global.kibanaEnabled=true
+  kibana:
+    image:
+      repository: bitnami/kibana
+      tag: 8.7.1
+    nodeSelector:
+      camunda/app: elasticsearch
+      elk/app: kibana
+    extraEnvVars:
+      - name: TZ
+        value: "Europe/Moscow"
