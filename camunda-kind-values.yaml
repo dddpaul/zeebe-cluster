@@ -167,6 +167,6 @@ elasticsearch:
       limits:
         cpu: "2000m"
         memory: "1536M"
-  env:
+  extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
