@@ -1,3 +1,6 @@
+# 2023-10-22: helm upgrade camunda camunda/camunda-platform:8.3.0
+# TODO: Replace JAVA_TOOL_OPTIONS to javaOpts
+
 global:
   identity:
     auth:
@@ -151,29 +154,19 @@ elasticsearch:
   enabled: true
   nodeSelector:
     camunda/app: elasticsearch
-  imageTag: 7.17.11
-  replicas: 3
-  minimumMasterNodes: 1
-  # Allow no backup for single node setups
-  clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
-  extraEnvs:
-    - name: "xpack.security.enabled"
-      value: "false"
-    - name: "xpack.monitoring.collection.enabled"
-      value: "true"
+  image:
+    repository: bitnami/elasticsearch
+    tag: 8.7.1
+  master:
+    masterOnly: false
+    replicaCount: 3
+    resources:
+      requests:
+        cpu: "2000m"
+        memory: "1536M"
+      limits:
+        cpu: "2000m"
+        memory: "1536M"
   env:
     - name: TZ
       value: "Europe/Moscow"
-  resources:
-    requests:
-      cpu: "2000m"
-      memory: "1536M"
-    limits:
-      cpu: "2000m"
-      memory: "1536M"
-  volumeClaimTemplate:
-    accessModes: [ "ReadWriteOnce" ]
-    storageClassName: "standard"
-    resources:
-      requests:
-        storage: 15Gi

@@ -8,13 +8,6 @@ cluster:
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
-# worker7 runs kibana, worker7-9 run elasticsearch
-load:
-	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.11
-	@docker pull docker.elastic.co/kibana/kibana:7.17.11
-	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
-	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
-
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo add camunda https://helm.camunda.io
