@@ -152,14 +152,14 @@ operate:
 # Configure elastic search to make it running for local development
 elasticsearch:
   enabled: true
-  nodeSelector:
-    camunda/app: elasticsearch
   image:
     repository: bitnami/elasticsearch
     tag: 8.7.1
   master:
     masterOnly: false
     replicaCount: 3
+    nodeSelector:
+      camunda/app: elasticsearch
     resources:
       requests:
         cpu: "2000m"
