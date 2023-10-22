@@ -11,6 +11,7 @@ global:
     tag: 8.3.1
   elasticsearch:
     disableExporter: false
+  kibanaEnabled: true
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -167,6 +168,18 @@ elasticsearch:
       limits:
         cpu: "2000m"
         memory: "1536M"
+  extraEnvVars:
+    - name: TZ
+      value: "Europe/Moscow"
+
+# Used when global.kibanaEnabled=true
+kibana:
+  image:
+    repository: bitnami/kibana
+    tag: 8.7.1
+  nodeSelector:
+    camunda/app: elasticsearch
+    elk/app: kibana
   extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
