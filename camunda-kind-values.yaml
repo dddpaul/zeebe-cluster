@@ -1,4 +1,5 @@
-# 2023-10-22: helm upgrade camunda camunda/camunda-platform:8.3.0
+# 2023-10-22: helm upgrade camunda camunda/camunda-platform --version 8.3.0
+# 2023-10-24: helm upgrade camunda camunda/camunda-platform --version 8.3.1
 # TODO: Replace JAVA_TOOL_OPTIONS to javaOpts
 
 global:
@@ -16,6 +17,10 @@ global:
 # Disable identity as part of the camunda platform core
 identity:
   enabled: false
+  postgresql:
+    enabled: false
+  keycloak:
+    enabled: false
 
 optimize:
   enabled: false
