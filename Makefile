@@ -7,12 +7,21 @@ cluster:
 	@kubectl cluster-info --context kind-${CLUSTER}
 	@kubectl apply -f metrics-server.yaml
 
+# worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
+load-zeebe:
+	@docker pull camunda/zeebe:8.3.1
+	@kind load docker-image camunda/zeebe:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@docker pull camunda/operate:8.3.1
+	@kind load docker-image camunda/operate:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+
 # worker7 runs kibana, worker7-9 run elasticsearch
-load:
-	@docker pull bitnami/kibana:8.7.1
-	@kind load docker-image bitnami/kibana:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
-	@docker pull bitnami/elasticsearch:8.7.1
-	@kind load docker-image bitnami/elasticsearch:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
+load-es:
+	@docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.11
+	@docker pull docker.elastic.co/kibana/kibana:7.17.11
+	@kind load docker-image docker.elastic.co/elasticsearch/elasticsearch:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
+	@kind load docker-image docker.elastic.co/kibana/kibana:7.17.11 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
+
+load: load-zeebe load-es
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
