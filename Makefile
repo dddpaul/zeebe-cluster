@@ -31,6 +31,11 @@ helm:
 install-metrics:
 	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 
+pre-upgrade:
+	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-operate
+	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-zeebe-gateway
+	@kubectl --namespace default delete statefulset ${HELM_CAMUNDA_NAME}-zeebe
+
 install-camunda:
 	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.1
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
