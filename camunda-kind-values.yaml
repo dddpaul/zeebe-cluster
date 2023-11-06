@@ -11,8 +11,8 @@ global:
   image:
     tag: 8.3.1
   elasticsearch:
-    disableExporter: false
-  kibanaEnabled: true
+    disableExporter: true
+  kibanaEnabled: false
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -137,7 +137,7 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: true
+  enabled: false
   logging:
     level:
       ROOT: INFO
@@ -157,7 +157,7 @@ operate:
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: true
+  enabled: false
   image:
     repository: bitnami/elasticsearch
     tag: 8.7.1
