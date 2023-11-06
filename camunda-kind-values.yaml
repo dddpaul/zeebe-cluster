@@ -1,3 +1,7 @@
+# 2023-10-22: helm upgrade camunda camunda/camunda-platform --version 8.3.0
+# 2023-10-24: helm upgrade camunda camunda/camunda-platform --version 8.3.1
+# TODO: Replace JAVA_TOOL_OPTIONS to javaOpts
+
 global:
   identity:
     auth:
@@ -8,10 +12,15 @@ global:
     tag: 8.3.1
   elasticsearch:
     disableExporter: false
+  kibanaEnabled: true
 
 # Disable identity as part of the camunda platform core
 identity:
   enabled: false
+  postgresql:
+    enabled: false
+  keycloak:
+    enabled: false
 
 optimize:
   enabled: false
@@ -149,31 +158,37 @@ operate:
 # Configure elastic search to make it running for local development
 elasticsearch:
   enabled: true
-  nodeSelector:
-    camunda/app: elasticsearch
-  imageTag: 7.17.11
-  replicas: 3
-  minimumMasterNodes: 1
-  # Allow no backup for single node setups
-  clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
-  extraEnvs:
-    - name: "xpack.security.enabled"
-      value: "false"
-    - name: "xpack.monitoring.collection.enabled"
-      value: "true"
-  env:
-    - name: TZ
-      value: "Europe/Moscow"
-  resources:
-    requests:
-      cpu: "2000m"
-      memory: "1536M"
-    limits:
-      cpu: "2000m"
-      memory: "1536M"
-  volumeClaimTemplate:
-    accessModes: [ "ReadWriteOnce" ]
-    storageClassName: "standard"
+  image:
+    repository: bitnami/elasticsearch
+    tag: 8.7.1
+  master:
+    masterOnly: false
+    replicaCount: 3
+    heapSize: 768m
+    persistence:
+      size: 12Gi
+    nodeSelector:
+      camunda/app: elasticsearch
     resources:
       requests:
-        storage: 15Gi
+        cpu: "2000m"
+        memory: "1536M"
+      limits:
+        cpu: "2000m"
+        memory: "1536M"
+  extraEnvVars:
+    - name: TZ
+      value: "Europe/Moscow"
+  # Used when global.kibanaEnabled=true
+  kibana:
+    persistence:
+      size: 4Gi
+    image:
+      repository: bitnami/kibana
+      tag: 8.7.1
+    nodeSelector:
+      camunda/app: elasticsearch
+      elk/app: kibana
+    extraEnvVars:
+      - name: TZ
+        value: "Europe/Moscow"
