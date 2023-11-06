@@ -48,7 +48,7 @@ spec:
     nodePort: 30103
     port: 1102
   selector:
-    app.kubernetes.io/name: zeebe-gateway
+    app.kubernetes.io/component: zeebe-gateway
 
 ---
 
@@ -81,7 +81,7 @@ spec:
     nodePort: 30300
     port: 8080
   selector:
-    app.kubernetes.io/name: operate
+    app.kubernetes.io/component: operate
 
 ---
 
@@ -96,7 +96,7 @@ spec:
     nodePort: 30301
     port: 9200
   selector:
-    statefulset.kubernetes.io/pod-name: elasticsearch-master-0
+    statefulset.kubernetes.io/pod-name: camunda-elasticsearch-master-0
 
 ---
 
