@@ -36,7 +36,7 @@ prometheusServiceMonitor:
 zeebe:
   image:
     repository: dddpaul/zeebe
-    tag: 8.3
+    tag: "8.3"
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3
