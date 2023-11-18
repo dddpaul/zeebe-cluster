@@ -38,6 +38,7 @@ pre-upgrade-zeebe:
 
 pre-upgrade-es:
 	@kubectl scale statefulset elasticsearch-master --replicas=0
+	@kubectl delete statefulset elasticsearch-master
 	@./pre-upgrade-es.sh
 
 pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
