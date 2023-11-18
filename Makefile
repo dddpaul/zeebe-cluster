@@ -41,6 +41,7 @@ pre-upgrade-es:
 	@./pre-upgrade-es.sh
 
 pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
+	@helm uninstall kibana
 
 post-upgrade:
 	@kubectl scale statefulset ${HELM_CAMUNDA_NAME}-elasticsearch-master --replicas=3
