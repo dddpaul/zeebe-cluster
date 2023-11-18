@@ -176,6 +176,10 @@ elasticsearch:
       limits:
         cpu: "2000m"
         memory: "1536M"
+    containerSecurityContext:
+      runAsUser: 1000
+    podSecurityContext:
+      fsGroup: 0
   extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
