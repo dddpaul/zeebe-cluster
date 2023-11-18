@@ -5,7 +5,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.2.16
+    tag: 8.2.18
   elasticsearch:
     disableExporter: false
 
@@ -151,7 +151,7 @@ elasticsearch:
   enabled: true
   nodeSelector:
     camunda/app: elasticsearch
-  imageTag: 7.17.11
+  imageTag: 7.17.15
   replicas: 3
   minimumMasterNodes: 1
   # Allow no backup for single node setups
