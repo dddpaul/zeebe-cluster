@@ -43,9 +43,6 @@ pre-upgrade-es:
 pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
 	@helm uninstall kibana
 
-post-upgrade:
-	@kubectl scale statefulset ${HELM_CAMUNDA_NAME}-elasticsearch-master --replicas=3
-
 install-camunda:
 	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.1
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
