@@ -37,9 +37,13 @@ pre-upgrade-zeebe:
 	@kubectl --namespace default delete statefulset ${HELM_CAMUNDA_NAME}-zeebe
 
 pre-upgrade-es:
+	@kubectl scale statefulset elasticsearch-master --replicas=0
 	@./pre-upgrade-es.sh
 
 pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
+
+post-upgrade:
+	@kubectl scale statefulset ${HELM_CAMUNDA_NAME}-elasticsearch-master --replicas=3
 
 install-camunda:
 	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.1
