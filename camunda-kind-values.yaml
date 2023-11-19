@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.3.1
+    tag: 8.3.3
   elasticsearch:
     disableExporter: false
   kibanaEnabled: true
@@ -160,13 +160,13 @@ elasticsearch:
   enabled: true
   image:
     repository: bitnami/elasticsearch
-    tag: 8.7.1
+    tag: 8.10.4
   master:
     masterOnly: false
     replicaCount: 3
     heapSize: 768m
     persistence:
-      size: 12Gi
+      size: 15Gi
     nodeSelector:
       camunda/app: elasticsearch
     resources:
@@ -176,6 +176,10 @@ elasticsearch:
       limits:
         cpu: "2000m"
         memory: "1536M"
+    containerSecurityContext:
+      runAsUser: 1000
+    podSecurityContext:
+      fsGroup: 0
   extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
@@ -185,7 +189,7 @@ elasticsearch:
       size: 4Gi
     image:
       repository: bitnami/kibana
-      tag: 8.7.1
+      tag: 8.10.4
     nodeSelector:
       camunda/app: elasticsearch
       elk/app: kibana
