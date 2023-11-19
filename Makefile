@@ -9,17 +9,17 @@ cluster:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.3.1
-	@kind load docker-image camunda/zeebe:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
-	@docker pull camunda/operate:8.3.1
-	@kind load docker-image camunda/operate:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@docker pull camunda/zeebe:8.3.3
+	@kind load docker-image camunda/zeebe:8.3.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@docker pull camunda/operate:8.3.3
+	@kind load docker-image camunda/operate:8.3.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
-	@docker pull bitnami/elasticsearch:8.7.1
-	@docker pull bitnami/kibana:8.7.1
-	@kind load docker-image bitnami/elasticsearch:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
-	@kind load docker-image bitnami/kibana:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
+	@docker pull bitnami/elasticsearch:8.10.4
+	@docker pull bitnami/kibana:8.10.4
+	@kind load docker-image bitnami/elasticsearch:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
+	@kind load docker-image bitnami/kibana:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
 
 load: load-zeebe load-es
 
@@ -31,13 +31,21 @@ helm:
 install-metrics:
 	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 
-pre-upgrade:
+pre-upgrade-zeebe:
 	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-operate
 	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-zeebe-gateway
 	@kubectl --namespace default delete statefulset ${HELM_CAMUNDA_NAME}-zeebe
 
+pre-upgrade-es:
+	@kubectl scale statefulset elasticsearch-master --replicas=0
+	@kubectl delete statefulset elasticsearch-master
+	@./pre-upgrade-es.sh
+
+pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
+	@helm uninstall kibana
+
 install-camunda:
-	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.1
+	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.2
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
