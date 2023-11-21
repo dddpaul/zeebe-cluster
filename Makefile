@@ -14,14 +14,7 @@ load-zeebe:
 	@docker pull camunda/operate:8.3.3
 	@kind load docker-image camunda/operate:8.3.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
-# worker7 runs kibana, worker7-9 run elasticsearch
-load-es:
-	@docker pull bitnami/elasticsearch:8.10.4
-	@docker pull bitnami/kibana:8.10.4
-	@kind load docker-image bitnami/elasticsearch:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
-	@kind load docker-image bitnami/kibana:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
-
-load: load-zeebe load-es
+load: load-zeebe
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -36,13 +29,7 @@ pre-upgrade-zeebe:
 	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-zeebe-gateway
 	@kubectl --namespace default delete statefulset ${HELM_CAMUNDA_NAME}-zeebe
 
-pre-upgrade-es:
-	@kubectl scale statefulset elasticsearch-master --replicas=0
-	@kubectl delete statefulset elasticsearch-master
-	@./pre-upgrade-es.sh
-
-pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
-	@helm uninstall kibana
+pre-upgrade: pre-upgrade-zeebe
 
 install-camunda:
 	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.2
