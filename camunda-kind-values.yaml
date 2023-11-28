@@ -1,5 +1,5 @@
 # 2023-10-22: helm upgrade camunda camunda/camunda-platform --version 8.3.0
-# 2023-10-24: helm upgrade camunda camunda/camunda-platform --version 8.3.1
+# 2023-10-24: helm upgrade camunda camunda/camunda-platform --version 8.4.0-alpha1
 # TODO: Replace JAVA_TOOL_OPTIONS to javaOpts
 
 global:
@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.3.1
+    tag: 8.3.3
   elasticsearch:
     disableExporter: true
   kibanaEnabled: false
@@ -35,8 +35,7 @@ prometheusServiceMonitor:
 # to get it running locally
 zeebe:
   image:
-    repository: dddpaul/zeebe
-    tag: "8.4"
+    tag: 8.4.0-alpha1
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3

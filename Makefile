@@ -9,21 +9,12 @@ cluster:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.3.1
-	@kind load docker-image camunda/zeebe:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2
-	@docker pull dddpaul/zeebe:8.3
-	@kind load docker-image dddpaul/zeebe:8.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
-	@docker pull camunda/operate:8.3.1
-	@kind load docker-image camunda/operate:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@docker pull camunda/zeebe:8.4.0-alpha1
+	@kind load docker-image camunda/zeebe:8.4.0-alpha1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2
+	@docker pull camunda/zeebe:8.4.0-alpha1
+	@kind load docker-image camunda/zeebe:8.4.0-alpha1 --name ${CLUSTER} --nodes ${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
 
-# worker7 runs kibana, worker7-9 run elasticsearch
-load-es:
-	@docker pull bitnami/elasticsearch:8.7.1
-	@docker pull bitnami/kibana:8.7.1
-	@kind load docker-image bitnami/elasticsearch:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
-	@kind load docker-image bitnami/kibana:8.7.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
-
-load: load-zeebe load-es
+load: load-zeebe
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -39,7 +30,7 @@ pre-upgrade:
 	@kubectl --namespace default delete statefulset ${HELM_CAMUNDA_NAME}-zeebe
 
 install-camunda:
-	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.1
+	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.3
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
