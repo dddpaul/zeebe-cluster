@@ -9,10 +9,9 @@ cluster:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.4.0-alpha1
-	@kind load docker-image camunda/zeebe:8.4.0-alpha1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2
-	@docker pull camunda/zeebe:8.4.0-alpha1
-	@kind load docker-image camunda/zeebe:8.4.0-alpha1 --name ${CLUSTER} --nodes ${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@docker pull aivinog1/zeebe:8.2.15-add-async-pool-for-channel
+	@kind load docker-image aivinog1/zeebe:8.2.15-add-async-pool-for-channel --name ${CLUSTER} --nodes ${CLUSTER}-worker2
+	@kind load docker-image aivinog1/zeebe:8.2.15-add-async-pool-for-channel --name ${CLUSTER} --nodes ${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
 
 load: load-zeebe
 

@@ -35,7 +35,8 @@ prometheusServiceMonitor:
 # to get it running locally
 zeebe:
   image:
-    tag: 8.4.0-alpha1
+    repository: aivinog1/zeebe
+    tag: 8.2.15-add-async-pool-for-channel
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3
