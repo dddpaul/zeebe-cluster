@@ -78,3 +78,7 @@ nodes:
 - role: worker
   labels:
     camunda/app: elasticsearch
+
+- role: worker
+  labels:
+    camunda/app: connectors

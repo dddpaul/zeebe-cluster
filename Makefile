@@ -21,7 +21,12 @@ load-es:
 	@kind load docker-image bitnami/elasticsearch:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
 	@kind load docker-image bitnami/kibana:8.10.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
 
-load: load-zeebe load-es
+# worker10 runs connectors
+load-connectors:
+	@docker pull camunda/connectors-bundle:8.3.1
+	@kind load docker-image camunda/connectors-bundle:8.3.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
+
+load: load-zeebe load-es load-connectors
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

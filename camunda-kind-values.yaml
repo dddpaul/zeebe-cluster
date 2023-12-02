@@ -123,14 +123,22 @@ zeebe-gateway:
       value: -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/zeebe/data -XX:ErrorFile=/usr/local/zeebe/data/zeebe_gateway_error%p.log -XX:+ExitOnOutOfMemoryError -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1101 -Dcom.sun.management.jmxremote.rmi.port=1102 -Djava.rmi.server.hostname=192.168.0.100 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
 
 connectors:
-  enabled: false
+  enabled: true
+  image:
+    repository: camunda/connectors-bundle
+    tag: 8.3.1
+  replicas: 1
   inbound:
     mode: disabled
   resources:
     requests:
       cpu: "100m"
+      memory: 500Mi
     limits:
       cpu: "1000m"
+      memory: 1000Mi
+  nodeSelector:
+    camunda/app: connectors
 
 # Disable tasklist (we don't need user tasks)
 tasklist:
