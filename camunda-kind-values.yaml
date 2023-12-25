@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.3.3
+    tag: 8.3.4
   elasticsearch:
     disableExporter: false
   kibanaEnabled: true
@@ -168,7 +168,7 @@ elasticsearch:
   enabled: true
   image:
     repository: bitnami/elasticsearch
-    tag: 8.10.4
+    tag: 8.8.2
   master:
     masterOnly: false
     replicaCount: 3
@@ -197,7 +197,7 @@ elasticsearch:
       size: 4Gi
     image:
       repository: bitnami/kibana
-      tag: 8.10.4
+      tag: 8.8.2
     nodeSelector:
       camunda/app: elasticsearch
       elk/app: kibana
