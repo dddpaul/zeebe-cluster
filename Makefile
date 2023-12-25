@@ -9,10 +9,10 @@ cluster:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.3.3
-	@kind load docker-image camunda/zeebe:8.3.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
-	@docker pull camunda/operate:8.3.3
-	@kind load docker-image camunda/operate:8.3.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@docker pull camunda/zeebe:8.3.4
+	@kind load docker-image camunda/zeebe:8.3.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@docker pull camunda/operate:8.3.4
+	@kind load docker-image camunda/operate:8.3.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
@@ -45,7 +45,7 @@ pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
 	@helm uninstall kibana
 
 install-camunda:
-	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.3
+	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 8.3.4
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
