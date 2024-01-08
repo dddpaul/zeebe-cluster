@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.3.4
+    tag: 8.4.0-alpha2
   elasticsearch:
     disableExporter: false
   kibanaEnabled: true
@@ -131,7 +131,7 @@ connectors:
       existingSecret: "demo"
   image:
     repository: camunda/connectors-bundle
-    tag: 8.3.3
+    tag: 8.4.0
   replicas: 1
   resources:
     requests:
@@ -176,7 +176,7 @@ elasticsearch:
   enabled: true
   image:
     repository: bitnami/elasticsearch
-    tag: 8.8.2
+    tag: 8.9.2
   master:
     masterOnly: false
     replicaCount: 3
@@ -205,7 +205,7 @@ elasticsearch:
       size: 4Gi
     image:
       repository: bitnami/kibana
-      tag: 8.8.2
+      tag: 8.9.2
     nodeSelector:
       camunda/app: elasticsearch
       elk/app: kibana
