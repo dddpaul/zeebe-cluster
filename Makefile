@@ -23,8 +23,8 @@ load-es:
 
 # worker10 runs connectors
 load-connectors:
-	@docker pull camunda/connectors-bundle:8.4.0
-	@kind load docker-image camunda/connectors-bundle:8.4.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
+	@docker pull camunda/connectors-bundle:8.4.3
+	@kind load docker-image camunda/connectors-bundle:8.4.3 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
 
 load: load-zeebe load-es load-connectors
 

@@ -131,7 +131,7 @@ connectors:
       existingSecret: "demo"
   image:
     repository: camunda/connectors-bundle
-    tag: 8.4.0
+    tag: 8.4.3
   replicas: 1
   resources:
     requests:
