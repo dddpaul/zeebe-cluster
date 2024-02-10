@@ -9,10 +9,10 @@ cluster:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.4.1
-	@kind load docker-image camunda/zeebe:8.4.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
-	@docker pull camunda/operate:8.4.1
-	@kind load docker-image camunda/operate:8.4.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@docker pull camunda/zeebe:8.4.2
+	@kind load docker-image camunda/zeebe:8.4.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@docker pull camunda/operate:8.4.2
+	@kind load docker-image camunda/operate:8.4.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
