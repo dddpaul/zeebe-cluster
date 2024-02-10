@@ -11,8 +11,8 @@ global:
   image:
     tag: 8.4.2
   elasticsearch:
-    disableExporter: false
-  kibanaEnabled: true
+    disableExporter: true
+  kibanaEnabled: false
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -122,7 +122,7 @@ zeebe-gateway:
 
 # Use values for inbound mode from here https://github.com/camunda/camunda-platform-helm/issues/976
 connectors:
-  enabled: true
+  enabled: false
   inbound:
     mode: "credentials"
     auth:
@@ -151,7 +151,7 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: true
+  enabled: false
   logging:
     level:
       ROOT: INFO
@@ -171,7 +171,7 @@ operate:
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: true
+  enabled: false
   image:
     repository: bitnami/elasticsearch
     tag: 8.9.2
