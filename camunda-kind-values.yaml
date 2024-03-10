@@ -111,10 +111,10 @@ zeebe-gateway:
   resources:
     requests:
       cpu: 1000m
-      memory: 500Mi
+      memory: 600Mi
     limits:
       cpu: 2000m
-      memory: 900Mi
+      memory: 1200Mi
   nodeSelector:
     camunda/app: gateway
   env:
