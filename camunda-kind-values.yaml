@@ -110,8 +110,8 @@ zeebe-gateway:
   replicas: 1
   resources:
     requests:
-      cpu: 1000m
-      memory: 600Mi
+      cpu: 2000m
+      memory: 1200Mi
     limits:
       cpu: 2000m
       memory: 1200Mi
