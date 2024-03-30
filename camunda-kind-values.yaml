@@ -9,10 +9,10 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.4.3
+    tag: 8.4.5
   elasticsearch:
-    disableExporter: false
-  kibanaEnabled: true
+    disableExporter: true
+  kibanaEnabled: false
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -62,6 +62,11 @@ zeebe:
   env:
     - name: TZ
       value: "Europe/Moscow"
+    # Hint from https://github.com/camunda/zeebe/issues/14853 to get rid of non-critical DNS errors in Grafana
+    - name: ZEEBE_BROKER_NETWORK_ADVERTISEDHOST
+      value: $(K8S_NAME).$(K8S_SERVICE_NAME)
+    - name: ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS
+      value: $(K8S_SERVICE_NAME)-0.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-1.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-2.$(K8S_SERVICE_NAME):26502
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
       value: "false"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
@@ -104,12 +109,12 @@ zeebe:
 zeebe-gateway:
   replicas: 1
   resources:
-  requests:
-    cpu: 1000m
-    memory: 500Mi
-  limits:
-    cpu: 2000m
-    memory: 900Mi
+    requests:
+      cpu: 2000m
+      memory: 1200Mi
+    limits:
+      cpu: 2000m
+      memory: 1200Mi
   nodeSelector:
     camunda/app: gateway
   env:
@@ -122,14 +127,14 @@ zeebe-gateway:
 
 # Use values for inbound mode from here https://github.com/camunda/camunda-platform-helm/issues/976
 connectors:
-  enabled: true
+  enabled: false
   inbound:
     mode: "credentials"
     auth:
       existingSecret: "demo"
   image:
     repository: camunda/connectors-bundle
-    tag: 8.4.3
+    tag: 8.4.5
   replicas: 1
   resources:
     requests:
@@ -151,7 +156,7 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: true
+  enabled: false
   logging:
     level:
       ROOT: INFO
@@ -171,7 +176,7 @@ operate:
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: true
+  enabled: false
   image:
     repository: bitnami/elasticsearch
     tag: 8.9.2
