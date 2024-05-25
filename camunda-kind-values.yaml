@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.4.7
+    tag: 8.5.1
   elasticsearch:
     disableExporter: true
   kibanaEnabled: false
@@ -134,7 +134,7 @@ connectors:
       existingSecret: "demo"
   image:
     repository: camunda/connectors-bundle
-    tag: 8.4.5
+    tag: 8.5.2
   replicas: 1
   resources:
     requests:
