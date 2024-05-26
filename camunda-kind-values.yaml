@@ -34,6 +34,9 @@ prometheusServiceMonitor:
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
 zeebe:
+  image:
+    repository: dddpaul/zeebe-ufc
+    tag: "8.6"
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3
