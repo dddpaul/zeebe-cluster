@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.6.0-alpha1
+    tag: 8.6.0-alpha4
   elasticsearch:
     disableExporter: true
   kibanaEnabled: false
@@ -35,8 +35,8 @@ prometheusServiceMonitor:
 # to get it running locally
 zeebe:
   image:
-    repository: dddpaul/zeebe-ufc
-    tag: "8.6"
+    repository: camunda/zeebe
+    tag: "8.6.0-alpha4"
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3
