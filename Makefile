@@ -69,5 +69,8 @@ destroy:
 rebalance:
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
+flowcontrol:
+	@curl -X POST -H "Content-Type: application/json" -d "@flow-control.json" http://127.0.0.1:9600/actuator/flowControl
+
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
