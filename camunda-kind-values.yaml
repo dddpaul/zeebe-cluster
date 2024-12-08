@@ -108,6 +108,45 @@ zeebe:
         protocol: TCP
         port: 1100
         targetPort: 1100
+  # This option rewrites whole application.yaml config for zeebe broker      
+  configuration: |
+    zeebe:
+      broker:
+        exporters: {}
+        gateway:
+          enable: true
+          network:
+            port: 26500
+          security:
+            enabled: false
+            authentication:
+              mode: none
+        network:
+          host: 0.0.0.0
+          commandApi:
+            port: 26501
+          internalApi:
+            port: 26502
+          monitoringApi:
+            port: "9600"
+        cluster:
+          clusterSize: "3"
+          replicationFactor: "3"
+          partitionsCount: "6"
+          clusterName: camunda-zeebe
+        threads:
+          cpuThreadCount: "4"
+          ioThreadCount: "2"
+        flowControl:
+          write:
+            enabled: true
+            rampUp: 0
+            limit: 10000
+            throttling:
+              enabled: true
+              acceptableBacklog: 100000
+              minimumLimit: 1000
+              resolution: 15s
 
 zeebe-gateway:
   replicas: 1
