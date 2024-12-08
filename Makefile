@@ -71,6 +71,7 @@ rebalance:
 
 flowcontrol:
 	@curl -X POST -H "Content-Type: application/json" -d "@flow-control.json" http://127.0.0.1:9600/actuator/flowControl
+	@curl -X POST -H "Content-Type: application/json" -d '{"configuredLevel":"debug"}' http://localhost:9600/actuator/loggers/io.camunda.zeebe.logstreams.impl.flowcontrol
 
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
