@@ -4,22 +4,22 @@
         "algorithm": "aimd",
         "useWindowed": true,
         "aimd": {
-            "initialLimit": 1000,
-            "minLimit": 500,
-            "maxLimit": 1500,
+            "initialLimit": 3000,
+            "minLimit": 3000,
+            "maxLimit": 6000,
             "backoffRatio": 0.9,
-            "requestTimeout": 0.5
+            "requestTimeout": 0.2
         }
     },
     "write": {
         "rampUp": 0,
         "enabled": true,
-        "limit": 2000,
+        "limit": 6000,
         "throttling": {
             "enabled": true,
-            "acceptableBacklog": 10000,
-            "minimumLimit": 1000,
-            "resolution": 5
+            "acceptableBacklog": 100000,
+            "minimumLimit": 3000,
+            "resolution": 15
         }
     }
 }
