@@ -126,4 +126,4 @@ spec:
     nodePort: 30400
     port: 6379
   selector:
-    app: redis
+    app.kubernetes.io/instance: redis
