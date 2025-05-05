@@ -1,0 +1,126 @@
+imageRepository: eqalpha/keydb
+imageTag: x86_64_v6.3.4
+nodes: 1
+password: ""
+existingSecret: ""
+existingSecretPasswordKey: "password"
+port: 6379
+portName: server
+internalPort: 6379
+internalPortName: keydb
+threads: 2
+multiMaster: "no"
+activeReplicas: "no"
+protectedMode: "no"
+appendonly: "no"
+
+nodeSelector:
+  camunda/app: redis
+
+configExtraArgs: []
+  # - somesimple: "argument"
+  # - client-output-buffer-limit: ["normal", "0", "0", "0"]
+  # - client-output-buffer-limit: ["replica", "268435456", "67108864", "60"]
+  # - client-output-buffer-limit: ["pubsub", "33554432", "8388608", "60"]
+
+persistentVolume:
+  enabled: false
+  accessModes:
+    - ReadWriteOnce
+  selector: {}
+    # matchLabels:
+    #   release: "stable"
+    # matchExpressions:
+    #   - {key: environment, operator: In, values: [dev]}
+  size: 1Gi
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+
+  # If persistentVolume is disable, use this to configure the empty dir
+  emptyDir: {}
+
+loadBalancer:
+  enabled: false
+
+  # annotations:
+  #   service.beta.kubernetes.io/aws-load-balancer-type: nlb
+  annotations: {}
+
+  # extraSpec:
+  #   loadBalancerIP: "1.2.3.4"
+  #   loadBalancerSourceRanges:
+  #   - 1.2.3.4/32
+  extraSpec: {}
+
+# Prometheus-operator ServiceMonitor
+serviceMonitor:
+  # Redis exporter must also be enabled
+  enabled: true
+  labels:
+  annotations:
+  interval: 30s
+  # scrapeTimeout: 20s
+
+# Redis exporter
+exporter:
+  enabled: true
+  imageRepository: oliver006/redis_exporter
+  imageTag: v1.48.0-alpine
+  pullPolicy: IfNotPresent
+
+  # Prometheus port & scrape path
+  port: 9121
+  portName: redis-exporter
+  scrapePath: /metrics
+
+  # Liveness Probe
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+
+  # Readiness Probe
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+
+  # Startup Probe
+  startupProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+    failureThreshold: 24
+    periodSeconds: 5
+
+  # CPU/Memory resource limits/requests
+  resources: {}
+
+  # Container security context
+  securityContext: {}
+
+  # Additional args for redis exporter
+  extraArgs: []
+    # - somesimple: "argument"
+    # - client-output-buffer-limit: ["normal", "0", "0", "0"]
+    # - client-output-buffer-limit: ["replica", "268435456", "67108864", "60"]
+    # - client-output-buffer-limit: ["pubsub", "33554432", "8388608", "60"]
+
+scripts:
+  enabled: false
+  # CPU/Memory resource limits/requests
+  resources: {}
+  # Container security context
+  securityContext: {}
+  cleanupCoredumps:
+    enabled: false
+    minutes: 1440
+  cleanupTempfiles:
+    enabled: true
+    minutes: 60

@@ -82,3 +82,11 @@ nodes:
 - role: worker
   labels:
     camunda/app: connectors
+
+- role: worker
+  labels:
+    camunda/app: redis
+  extraPortMappings:
+  - containerPort: 30400
+    hostPort: 6379
+    protocol: TCP

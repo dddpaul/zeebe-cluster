@@ -1,6 +1,7 @@
 CLUSTER=camunda
 HELM_CAMUNDA_NAME=camunda
 HELM_METRICS_NAME=metrics
+HELM_REDIS_NAME=redis
 
 cluster:
 	@kind create cluster --name ${CLUSTER} --config kind-config.yaml
@@ -24,15 +25,24 @@ load-connectors:
 	@docker pull camunda/connectors-bundle:8.5.2
 	@kind load docker-image camunda/connectors-bundle:8.5.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
 
-load: load-zeebe load-es load-connectors
+# worker11 runs redis / keydb
+load-redis:
+	@docker pull eqalpha/keydb:x86_64_v6.3.4
+	@kind load docker-image eqalpha/keydb:x86_64_v6.3.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker11
+
+load: load-zeebe load-es load-connectors load-redis
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo add camunda https://helm.camunda.io
+	@helm repo add enapter https://enapter.github.io/charts/
 	@helm repo update
 
 install-metrics:
 	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
+
+install-redis:
+	@helm upgrade -i ${HELM_REDIS_NAME} enapter/keydb -f keydb-kind-values.yaml
 
 pre-upgrade-zeebe:
 	@kubectl --namespace default delete deployment ${HELM_CAMUNDA_NAME}-operate
@@ -57,11 +67,12 @@ install-camunda:
 	@kubectl wait --namespace default --for=condition=ready pod --selector=app.kubernetes.io/name=zeebe-gateway --timeout=300s
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
-install: helm install-metrics install-camunda
+install: helm install-metrics install-redis install-camunda
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
 	@helm uninstall ${HELM_CAMUNDA_NAME}
+	@helm uninstall ${HELM_REDIS_NAME}
 
 destroy:
 	@kind delete cluster --name ${CLUSTER}
