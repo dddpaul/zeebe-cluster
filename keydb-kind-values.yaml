@@ -17,7 +17,9 @@ appendonly: "no"
 nodeSelector:
   camunda/app: redis
 
-configExtraArgs: []
+# Publish key expiration events
+configExtraArgs:
+  - notify-keyspace-events: Ex
   # - somesimple: "argument"
   # - client-output-buffer-limit: ["normal", "0", "0", "0"]
   # - client-output-buffer-limit: ["replica", "268435456", "67108864", "60"]
