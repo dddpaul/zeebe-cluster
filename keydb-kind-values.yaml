@@ -65,6 +65,7 @@ serviceMonitor:
   # Redis exporter must also be enabled
   enabled: true
   labels:
+    release: metrics
   annotations:
   interval: 30s
   # scrapeTimeout: 20s
