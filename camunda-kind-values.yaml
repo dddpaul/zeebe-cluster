@@ -198,7 +198,7 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: false
+  enabled: true
   logging:
     level:
       ROOT: INFO
