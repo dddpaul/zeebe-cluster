@@ -88,3 +88,6 @@ flowcontrol:
 
 curl:
 	kubectl run curl --image=curlimages/curl -i --tty -- sh
+
+operate-log:
+	while true; do stern -l "app.kubernetes.io/component=operate" -o raw -t --color=never --init-containers=false --no-follow -i "batchRequest"; done
