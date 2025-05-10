@@ -210,10 +210,10 @@ operate:
     camunda/app: operate
   resources:
     requests:
-      cpu: "2000m"
+      cpu: "1000m"
       memory: "800M"
     limits:
-      cpu: "2000m"
+      cpu: "1000m"
       memory: "800M"
   env:
     - name: TZ
