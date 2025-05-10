@@ -199,6 +199,8 @@ tasklist:
 
 operate:
   enabled: true
+  image:
+    tag: 8.6.13
   logging:
     level:
       ROOT: INFO
