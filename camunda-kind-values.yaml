@@ -205,6 +205,7 @@ operate:
     level:
       ROOT: INFO
       io.camunda.operate: INFO
+      io.camunda.operate.store.elasticsearch: DEBUG
   nodeSelector:
     camunda/app: operate
   resources:
