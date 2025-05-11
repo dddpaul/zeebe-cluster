@@ -214,11 +214,11 @@ operate:
     camunda/app: operate
   resources:
     requests:
-      cpu: "3000m"
-      memory: "1200M"
+      cpu: "1000m"
+      memory: "800M"
     limits:
-      cpu: "3000m"
-      memory: "1200M"
+      cpu: "1000m"
+      memory: "800M"
   env:
     - name: TZ
       value: "Europe/Moscow"
