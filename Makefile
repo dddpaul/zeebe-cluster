@@ -9,6 +9,15 @@ cluster:
 	@kubectl apply -f metrics-server.yaml
 	@kubectl apply -f zeebe-nodeports.yaml
 
+# grafana/prometeheus runs on worker, node-exporter runs on all nodes
+load-metrics:
+	@docker pull docker.io/grafana/grafana:12.0.0 
+	@kind load docker-image docker.io/grafana/grafana:12.0.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker
+	@docker pull registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
+	@kind load docker-image registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker
+	@docker pull quay.io/prometheus/node-exporter:v1.9.1
+	@kind load docker-image quay.io/prometheus/node-exporter:v1.9.1 --name ${CLUSTER}
+
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
 	@docker pull camunda/zeebe:8.6.14
@@ -33,7 +42,7 @@ load-redis:
 	@docker pull eqalpha/keydb:x86_64_v6.3.4
 	@kind load docker-image eqalpha/keydb:x86_64_v6.3.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker11
 
-load: load-zeebe load-es load-connectors load-redis
+load: load-metrics load-zeebe load-es load-connectors load-redis
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -42,7 +51,8 @@ helm:
 	@helm repo update
 
 install-metrics:
-	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
+#	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
+	@helm upgrade -i ${HELM_METRICS_NAME} ./helm-charts/kube-prometheus-stack-72.3.0.tgz -f prometheus-kind-values.yaml
 
 install-redis:
 	@helm upgrade -i ${HELM_REDIS_NAME} enapter/keydb -f keydb-kind-values.yaml
