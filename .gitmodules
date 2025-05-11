@@ -1,3 +1,0 @@
-[submodule "helm-charts/elastic"]
-	path = helm-charts/elastic
-	url = git@github.com:elastic/helm-charts.git
