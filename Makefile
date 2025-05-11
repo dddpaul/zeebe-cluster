@@ -91,3 +91,6 @@ curl:
 
 operate-log:
 	while true; do stern -l "app.kubernetes.io/component=operate" -o raw -t --color=never --init-containers=false --no-follow -i "batchRequest"; done
+
+resource-capacity:
+	kubectl resource-capacity -u -p -n default -l "app.kubernetes.io/instance=camunda" --pod-count
