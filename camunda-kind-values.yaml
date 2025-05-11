@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: 8.6.14
+    tag: "8.6.14"
   elasticsearch:
     disableExporter: false
   kibanaEnabled: true
@@ -149,6 +149,9 @@ zeebe:
   #             resolution: 15s
 
 zeebe-gateway:
+  image:
+    repository: camunda/zeebe
+    tag: "8.6.14"
   replicas: 1
   resources:
     requests:
@@ -176,7 +179,7 @@ connectors:
       existingSecret: "demo"
   image:
     repository: camunda/connectors-bundle
-    tag: 8.5.2
+    tag: "8.5.2"
   replicas: 1
   resources:
     requests:
@@ -200,7 +203,8 @@ tasklist:
 operate:
   enabled: true
   image:
-    tag: 8.6.13
+    repository: camunda/zeebe
+    tag: "8.6.14"
   logging:
     level:
       ROOT: INFO
