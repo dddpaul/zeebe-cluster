@@ -203,7 +203,7 @@ tasklist:
 operate:
   enabled: true
   image:
-    repository: camunda/zeebe
+    repository: camunda/operate
     tag: "8.6.14"
   logging:
     level:
