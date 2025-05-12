@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   image:
-    tag: "8.7.1"
+    tag: "8.5.18"
   elasticsearch:
     disableExporter: false
   kibanaEnabled: true
@@ -36,7 +36,7 @@ prometheusServiceMonitor:
 zeebe:
   image:
     repository: camunda/zeebe
-    tag: "8.7.1"
+    tag: "8.5.18"
   clusterSize: 3
   partitionCount: 6
   replicationFactor: 3
@@ -153,7 +153,7 @@ zeebe:
 zeebe-gateway:
   image:
     repository: camunda/zeebe
-    tag: "8.7.1"
+    tag: "8.5.18"
   replicas: 1
   resources:
     requests:
@@ -206,7 +206,7 @@ operate:
   enabled: true
   image:
     repository: camunda/operate
-    tag: "8.7.1"
+    tag: "8.5.14"
   logging:
     level:
       ROOT: INFO
