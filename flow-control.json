@@ -1,24 +1,12 @@
 {
-    "request": {
-        "enabled": true,
-        "algorithm": "aimd",
-        "useWindowed": true,
-        "aimd": {
-            "initialLimit": 3000,
-            "minLimit": 3000,
-            "maxLimit": 6000,
-            "backoffRatio": 0.9,
-            "requestTimeout": 0.2
-        }
-    },
     "write": {
         "rampUp": 0,
         "enabled": true,
-        "limit": 6000,
+        "limit": 8000,
         "throttling": {
             "enabled": true,
-            "acceptableBacklog": 100000,
-            "minimumLimit": 3000,
+            "acceptableBacklog": 1000000,
+            "minimumLimit": 4000,
             "resolution": 15
         }
     }
