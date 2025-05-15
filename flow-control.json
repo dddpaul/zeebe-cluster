@@ -6,7 +6,7 @@
         "throttling": {
             "enabled": true,
             "acceptableBacklog": 1000000,
-            "minimumLimit": 5000,
+            "minimumLimit": 3000,
             "resolution": 15
         }
     }
