@@ -230,7 +230,7 @@ elasticsearch:
   enabled: true
   image:
     repository: bitnami/elasticsearch
-    tag: 8.12.2
+    tag: 8.15.4
   master:
     masterOnly: false
     replicaCount: 3
@@ -259,7 +259,7 @@ elasticsearch:
       size: 4Gi
     image:
       repository: bitnami/kibana
-      tag: 8.12.2
+      tag: 8.15.4
     nodeSelector:
       camunda/app: elasticsearch
       elk/app: kibana
