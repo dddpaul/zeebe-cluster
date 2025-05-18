@@ -225,11 +225,11 @@ operate:
     - name: TZ
       value: "Europe/Moscow"
     - name: CAMUNDA_OPERATE_ELASTICSEARCH_NUMBEROFSHARDS
-      value: "1"
+      value: "3"
   migration:
     env:
       - name: CAMUNDA_OPERATE_ELASTICSEARCH_NUMBEROFSHARDS
-        value: "1"
+        value: "3"
 
 # Configure elastic search to make it running for local development
 elasticsearch:
