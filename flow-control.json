@@ -2,11 +2,11 @@
     "write": {
         "rampUp": 0,
         "enabled": true,
-        "limit": 10000,
+        "limit": 15000,
         "throttling": {
             "enabled": true,
             "acceptableBacklog": 1000000,
-            "minimumLimit": 3000,
+            "minimumLimit": 1000,
             "resolution": 15
         }
     }
