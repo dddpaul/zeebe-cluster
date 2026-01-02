@@ -222,7 +222,7 @@ tasklist:
   enabled: false
 
 operate:
-  enabled: true
+  enabled: false
   image:
     repository: camunda/operate
     tag: "8.8.14"
