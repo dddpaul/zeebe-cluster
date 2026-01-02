@@ -35,7 +35,7 @@ prometheusServiceMonitor:
 # to get it running locally
 zeebe:
   image:
-    repository: camunda/zeebe
+    repository: camunda/camunda
     tag: "8.8.14"
   clusterSize: 3
   partitionCount: 6

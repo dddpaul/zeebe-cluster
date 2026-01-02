@@ -25,8 +25,8 @@ load-redis:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.8.14
-	@kind load docker-image camunda/zeebe:8.8.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5 &
+	@docker pull camunda/camunda:8.8.14
+	@kind load docker-image camunda/camunda:8.8.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5 &
 	@docker pull camunda/operate:8.6.14
 	@kind load docker-image camunda/operate:8.8.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
