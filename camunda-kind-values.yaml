@@ -33,15 +33,15 @@ prometheusServiceMonitor:
 
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
-zeebe:
+orchestration:
   image:
     repository: camunda/camunda
     tag: "8.8.8"
-  clusterSize: 3
-  partitionCount: 6
-  replicationFactor: 3
-  cpuThreadCount: 4
-  ioThreadCount: 2
+  clusterSize: "3"
+  partitionCount: "6"
+  replicationFactor: "3"
+  cpuThreadCount: "4"
+  ioThreadCount: "2"
   resources:
     requests:
       cpu: 6000m
