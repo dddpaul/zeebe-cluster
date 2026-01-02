@@ -11,7 +11,7 @@ cluster:
 
 # grafana/prometeheus runs on worker, node-exporter runs on all nodes
 load-metrics:
-	@docker pull docker.io/grafana/grafana:12.0.0 
+	@docker pull docker.io/grafana/grafana:12.0.0
 	@kind load docker-image docker.io/grafana/grafana:12.0.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker &
 	@docker pull registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
 	@kind load docker-image registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker &
@@ -25,10 +25,10 @@ load-redis:
 
 # worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
 load-zeebe:
-	@docker pull camunda/zeebe:8.6.14
-	@kind load docker-image camunda/zeebe:8.6.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5 &
+	@docker pull camunda/zeebe:8.8.14
+	@kind load docker-image camunda/zeebe:8.8.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5 &
 	@docker pull camunda/operate:8.6.14
-	@kind load docker-image camunda/operate:8.6.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@kind load docker-image camunda/operate:8.8.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
@@ -39,7 +39,7 @@ load-es:
 
 # worker10 runs connectors
 load-connectors:
-	@docker pull camunda/connectors-bundle:8.5.2
+	@docker pull camunda/connectors-bundle:8.8.2
 	@kind load docker-image camunda/connectors-bundle:8.5.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
 
 load: load-metrics load-redis load-zeebe load-es load-connectors
@@ -72,7 +72,7 @@ pre-upgrade: pre-upgrade-zeebe pre-upgrade-es
 
 install-camunda:
 #	@helm upgrade -i ${HELM_CAMUNDA_NAME} camunda/camunda-platform -f camunda-kind-values.yaml --version 11.3.1
-	@helm upgrade -i ${HELM_CAMUNDA_NAME} ./helm-charts/camunda-platform-11.3.1.tgz -f camunda-kind-values.yaml
+	@helm upgrade -i ${HELM_CAMUNDA_NAME} ./helm-charts/camunda-platform-13.3.2.tgz -f camunda-kind-values.yaml
 	@kubectl patch service camunda-zeebe-gateway --patch-file zeebe-gateway-jmx-patch.yaml
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-0 --timeout=300s
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-1 --timeout=300s
