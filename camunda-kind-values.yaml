@@ -74,6 +74,11 @@ orchestration:
     probePath: /actuator/health/readiness
   nodeSelector:
     camunda/app: broker
+  exporters:
+    camunda:
+      enabled: false
+    zeebe:
+      enabled: false
   env:
     - name: TZ
       value: "Europe/Moscow"
