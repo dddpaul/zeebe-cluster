@@ -32,10 +32,10 @@ load-zeebe:
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
-	@docker pull bitnami/elasticsearch:8.15.4
-	@docker pull bitnami/kibana:8.15.4
-	@kind load docker-image bitnami/elasticsearch:8.15.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9 &
-	@kind load docker-image bitnami/kibana:8.15.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
+	@docker pull elasticsearch:8.16.6
+	@docker pull kibana:8.16.6
+	@kind load docker-image elasticsearch:8.16.6 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9 &
+	@kind load docker-image kibana:8.16.6 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
 
 # worker10 runs connectors
 load-connectors:
