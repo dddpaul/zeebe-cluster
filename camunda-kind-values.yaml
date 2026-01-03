@@ -9,7 +9,7 @@ global:
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
   elasticsearch:
-    enabled: false
+    enabled: true
 
 # Disable identity as part of the camunda platform core
 identity:
@@ -256,7 +256,7 @@ operate:
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: false
+  enabled: true
   image:
     repository: elasticsearch
     tag: 8.16.6
