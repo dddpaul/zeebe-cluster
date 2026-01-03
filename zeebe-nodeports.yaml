@@ -33,13 +33,13 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - name: rest-api
+    - name: operate
       nodePort: 30100
       port: 8080
-    - name: actuator-api
+    - name: actuator
       nodePort: 30101
       port: 9600
-    - name: grpc-api
+    - name: grpc
       nodePort: 30102
       port: 26500
     - name: jmx
