@@ -199,35 +199,6 @@ connectors:
 tasklist:
   enabled: false
 
-operate:
-  enabled: false
-  image:
-    repository: camunda/operate
-    tag: "8.8.14"
-  logging:
-    level:
-      ROOT: INFO
-      io.camunda.operate: INFO
-      io.camunda.operate.store.elasticsearch: DEBUG
-  nodeSelector:
-    camunda/app: operate
-  resources:
-    requests:
-      cpu: "1000m"
-      memory: "800M"
-    limits:
-      cpu: "1000m"
-      memory: "800M"
-  env:
-    - name: TZ
-      value: "Europe/Moscow"
-    - name: CAMUNDA_OPERATE_ELASTICSEARCH_NUMBEROFSHARDS
-      value: "3"
-  migration:
-    env:
-      - name: CAMUNDA_OPERATE_ELASTICSEARCH_NUMBEROFSHARDS
-        value: "3"
-
 # Configure elastic search to make it running for local development
 elasticsearch:
   enabled: true
