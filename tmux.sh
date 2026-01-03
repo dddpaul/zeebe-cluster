@@ -3,16 +3,15 @@
 session="zeebe"
 
 attach() {
-    [ -n "${TMUX:-}" ] &&
-        tmux switch-client -t $session ||
-        tmux attach-session -t $session
+  [ -n "${TMUX:-}" ] &&
+    tmux switch-client -t $session ||
+    tmux attach-session -t $session
 }
 
-if tmux has-session -t "=$session" 2> /dev/null; then
-    attach
-    exit 0
+if tmux has-session -t "=$session" 2>/dev/null; then
+  attach
+  exit 0
 fi
-
 
 tmux new-session -d -s $session
 
@@ -35,7 +34,7 @@ tmux split-window -h
 tmux resize-pane -R 40
 tmux send-keys -t $session 'watch -n1 "zbctl --insecure status"' Enter
 tmux split-window -v
-tmux send-keys -t $session 'watch -n1 "kubectl exec camunda-zeebe-0 -- du -h -d1 /usr/local/zeebe/data/raft-partition/partitions/"' Enter
+tmux send-keys -t $session 'watch -n1 "kubectl exec camunda-zeebe-0 -- du -h -d1 /usr/local/camunda/data/raft-partition/partitions/"' Enter
 
 # move to bigger lower left pane
 tmux select-pane -L
