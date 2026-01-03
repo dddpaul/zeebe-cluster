@@ -41,6 +41,13 @@ orchestration:
   replicationFactor: "3"
   cpuThreadCount: "4"
   ioThreadCount: "2"
+  index:
+    replicas: 1
+  exporters:
+    camunda:
+      enabled: false
+    zeebe:
+      enabled: true
   resources:
     requests:
       cpu: 6000m
@@ -73,11 +80,6 @@ orchestration:
     probePath: /actuator/health/readiness
   nodeSelector:
     camunda/app: broker
-  exporters:
-    camunda:
-      enabled: false
-    zeebe:
-      enabled: true
   env:
     - name: TZ
       value: "Europe/Moscow"
