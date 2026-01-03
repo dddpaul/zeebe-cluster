@@ -8,19 +8,18 @@ global:
       # Disable the Identity authentication for local development
       # it will fall back to basic-auth: demo/demo as default user
       enabled: false
-  image:
-    tag: "8.8.8"
   elasticsearch:
-    disableExporter: false
-  kibanaEnabled: true
+    enabled: false
 
 # Disable identity as part of the camunda platform core
 identity:
   enabled: false
-  postgresql:
-    enabled: false
-  keycloak:
-    enabled: false
+
+identityPostgresql:
+  enabled: false
+
+identityKeycloak:
+  enabled: false
 
 optimize:
   enabled: false
@@ -257,10 +256,10 @@ operate:
 
 # Configure elastic search to make it running for local development
 elasticsearch:
-  enabled: true
+  enabled: false
   image:
-    repository: bitnami/elasticsearch
-    tag: 8.15.4
+    repository: elasticsearch
+    tag: 8.16.6
   master:
     masterOnly: false
     replicaCount: 3
@@ -288,8 +287,8 @@ elasticsearch:
     persistence:
       size: 4Gi
     image:
-      repository: bitnami/kibana
-      tag: 8.15.4
+      repository: kibana
+      tag: 8.16.6
     nodeSelector:
       camunda/app: elasticsearch
       elk/app: kibana
