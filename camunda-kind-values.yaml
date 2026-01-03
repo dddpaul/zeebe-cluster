@@ -3,6 +3,9 @@
 # 2026-01-02: Updated to Camunda Platform 13.x with Zeebe 8.8.x
 
 global:
+  security:
+    authentication:
+      method: basic
   identity:
     auth:
       # Disable the Identity authentication for local development
@@ -48,6 +51,11 @@ orchestration:
       enabled: false
     zeebe:
       enabled: true
+  security:
+    authentication:
+      unprotectedApi: true
+    authorizations:
+      enabled: false
   resources:
     requests:
       cpu: 6000m
