@@ -10,6 +10,7 @@ global:
       enabled: false
   elasticsearch:
     enabled: false
+  noSecondaryStorage: true
 
 # Disable identity as part of the camunda platform core
 identity:
