@@ -1,92 +1,87 @@
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
+  - role: control-plane
 
-- role: control-plane
+  - role: worker
+    labels:
+      camunda/app: metrics
+    extraPortMappings:
+      - containerPort: 30000
+        hostPort: 8081
+        protocol: TCP
+      - containerPort: 30001
+        hostPort: 8082
+        protocol: TCP
 
-- role: worker
-  labels:
-    camunda/app: metrics
-  extraPortMappings:
-  - containerPort: 30000
-    hostPort: 8081
-    protocol: TCP
-  - containerPort: 30001
-    hostPort: 8082
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: gateway
 
-- role: worker
-  labels:
-    camunda/app: gateway
-  extraPortMappings:
-  - containerPort: 30100
-    hostPort: 9600
-    protocol: TCP
-  - containerPort: 30101
-    hostPort: 26500
-    protocol: TCP
-  - containerPort: 30102
-    hostPort: 1101
-    protocol: TCP
-  - containerPort: 30103
-    hostPort: 1102
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: broker
+    extraPortMappings:
+      - containerPort: 30100
+        hostPort: 8080
+        protocol: TCP
+      - containerPort: 30101
+        hostPort: 9600
+        protocol: TCP
+      - containerPort: 30102
+        hostPort: 26500
+        protocol: TCP
+      - containerPort: 30103
+        hostPort: 1099
+        protocol: TCP
+      - containerPort: 30104
+        hostPort: 1100
+        protocol: TCP
 
-- role: worker
-  labels:
-    camunda/app: broker
-  extraPortMappings:
-  - containerPort: 30200
-    hostPort: 1099
-    protocol: TCP
-  - containerPort: 30201
-    hostPort: 1100
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: broker
 
-- role: worker
-  labels:
-    camunda/app: broker
+  - role: worker
+    labels:
+      camunda/app: broker
 
-- role: worker
-  labels:
-    camunda/app: broker
+  - role: worker
+    labels:
+      camunda/app: operate
+    extraPortMappings:
+      - containerPort: 30300
+        hostPort: 8083
+        protocol: TCP
 
-- role: worker
-  labels:
-    camunda/app: operate
-  extraPortMappings:
-  - containerPort: 30300
-    hostPort: 8083
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: elasticsearch
+      elk/app: kibana
+    extraPortMappings:
+      - containerPort: 30301
+        hostPort: 8084
+        protocol: TCP
+      - containerPort: 30302
+        hostPort: 8085
+        protocol: TCP
 
-- role: worker
-  labels:
-    camunda/app: elasticsearch
-    elk/app: kibana
-  extraPortMappings:
-  - containerPort: 30301
-    hostPort: 8084
-    protocol: TCP
-  - containerPort: 30302
-    hostPort: 8085
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: elasticsearch
 
-- role: worker
-  labels:
-    camunda/app: elasticsearch
+  - role: worker
+    labels:
+      camunda/app: elasticsearch
 
-- role: worker
-  labels:
-    camunda/app: elasticsearch
+  - role: worker
+    labels:
+      camunda/app: connectors
 
-- role: worker
-  labels:
-    camunda/app: connectors
-
-- role: worker
-  labels:
-    camunda/app: redis
-  extraPortMappings:
-  - containerPort: 30400
-    hostPort: 6379
-    protocol: TCP
+  - role: worker
+    labels:
+      camunda/app: redis
+    extraPortMappings:
+      - containerPort: 30400
+        hostPort: 6379
+        protocol: TCP
