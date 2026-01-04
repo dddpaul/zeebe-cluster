@@ -6,7 +6,7 @@ global:
   ingress:
     enabled: true
     className: nginx
-    host: "192.168.0.100"
+    host: camunda.local
   security:
     authentication:
       method: basic
@@ -40,7 +40,7 @@ orchestration:
     grpc:
       enabled: true
       className: nginx
-      host: "192.168.0.100"
+      host: zeebe.camunda.local
   image:
     repository: camunda/camunda
     tag: "8.8.8"
