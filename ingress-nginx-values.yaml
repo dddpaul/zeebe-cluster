@@ -5,6 +5,7 @@ controller:
       maxUnavailable: 1
   service:
     type: NodePort
-
   publishService:
     enabled: false
+  nodeSelector:
+    camunda/app: ingress
