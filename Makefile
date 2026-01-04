@@ -58,8 +58,7 @@ install-metrics:
 
 install-ingress:
 	@helm upgrade -i ${HELM_INGRESS_NAME} ingress-nginx/ingress-nginx -f ingress-nginx-values.yaml \
-	--namespace ingress-nginx \
-    --create-namespace
+		--namespace ingress-nginx --create-namespace
 
 install-redis:
 	@helm upgrade -i ${HELM_REDIS_NAME} enapter/keydb -f keydb-kind-values.yaml
@@ -86,10 +85,11 @@ install-camunda:
 	@kubectl wait --namespace default --for=condition=ready pod --selector=app.kubernetes.io/name=zeebe-gateway --timeout=300s
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
-install: helm install-metrics install-redis install-camunda
+install: helm install-metrics install-ingress install-redis install-camunda
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}
+	@helm uninstall ${HELM_INGRESS_NAME} -n ingress-nginx
 	@helm uninstall ${HELM_CAMUNDA_NAME}
 	@helm uninstall ${HELM_REDIS_NAME}
 
