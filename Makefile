@@ -19,17 +19,20 @@ load-metrics:
 	@docker pull quay.io/prometheus/node-exporter:v1.9.1
 	@kind load docker-image quay.io/prometheus/node-exporter:v1.9.1 --name ${CLUSTER}
 
+# worker2 runs ingress
+load-ingress:
+	@docker pull registry.k8s.io/ingress-nginx/controller:v1.14.1
+	@kind load docker-image registry.k8s.io/ingress-nginx/controller:v1.14.1 --name ${CLUSTER} --nodes ${CLUSTER}-worker2
+
 # worker11 runs redis / keydb
 load-redis:
 	@docker pull eqalpha/keydb:x86_64_v6.3.4
 	@kind load docker-image eqalpha/keydb:x86_64_v6.3.4 --name ${CLUSTER} --nodes ${CLUSTER}-worker11
 
-# worker2 runs gateway, worker3-5 run brokers, worker6 runs operate
+#worker3-5 run brokers, worker6 runs operate
 load-zeebe:
 	@docker pull camunda/camunda:8.8.8
-	@kind load docker-image camunda/camunda:8.8.8 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5 &
-	@docker pull camunda/operate:8.6.14
-	@kind load docker-image camunda/operate:8.6.14 --name ${CLUSTER} --nodes ${CLUSTER}-worker6
+	@kind load docker-image camunda/camunda:8.8.8 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
@@ -41,9 +44,9 @@ load-es:
 # worker10 runs connectors
 load-connectors:
 	@docker pull camunda/connectors-bundle:8.8.2
-	@kind load docker-image camunda/connectors-bundle:8.5.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
+	@kind load docker-image camunda/connectors-bundle:8.8.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
 
-load: load-metrics load-redis load-zeebe load-es load-connectors
+load: load-metrics load-ingress load-redis load-zeebe load-es load-connectors
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
