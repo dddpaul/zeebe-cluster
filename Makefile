@@ -2,6 +2,7 @@ CLUSTER=camunda
 HELM_CAMUNDA_NAME=camunda
 HELM_METRICS_NAME=metrics
 HELM_REDIS_NAME=redis
+HELM_INGRESS_NAME=ingress
 
 cluster:
 	@kind create cluster --name ${CLUSTER} --config kind-config.yaml
@@ -48,11 +49,17 @@ helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo add camunda https://helm.camunda.io
 	@helm repo add enapter https://enapter.github.io/charts/
+	@helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 	@helm repo update
 
 install-metrics:
 #	@helm upgrade -i ${HELM_METRICS_NAME} prometheus-community/kube-prometheus-stack -f prometheus-kind-values.yaml
 	@helm upgrade -i ${HELM_METRICS_NAME} ./helm-charts/kube-prometheus-stack-72.3.0.tgz -f prometheus-kind-values.yaml
+
+install-ingress:
+	@helm upgrade -i ${HELM_INGRESS_NAME} ingress-nginx/ingress-nginx -f ingress-nginx-values.yaml \
+	--namespace ingress-nginx \
+    --create-namespace
 
 install-redis:
 	@helm upgrade -i ${HELM_REDIS_NAME} enapter/keydb -f keydb-kind-values.yaml

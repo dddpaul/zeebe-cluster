@@ -3,6 +3,10 @@
 # 2026-01-02: Updated to Camunda Platform 13.x with Zeebe 8.8.x
 
 global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "192.168.0.100"
   security:
     authentication:
       method: basic
@@ -31,6 +35,12 @@ prometheusServiceMonitor:
 # Reduce for Zeebe and Gateway the configured replicas and with that the required resources
 # to get it running locally
 orchestration:
+  contextPath: "/"
+  ingress:
+    grpc:
+      enabled: true
+      className: nginx
+      host: "192.168.0.100"
   image:
     repository: camunda/camunda
     tag: "8.8.8"
