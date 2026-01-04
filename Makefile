@@ -62,8 +62,6 @@ install-metrics:
 install-ingress:
 	@helm upgrade -i ${HELM_INGRESS_NAME} ingress-nginx/ingress-nginx -f ingress-nginx-values.yaml \
 		--namespace ingress-nginx --create-namespace
-	@kubectl delete validatingwebhookconfiguration ${HELM_INGRESS_NAME}-ingress-nginx-admission
-	@kubectl -n ingress-nginx delete svc ${HELM_INGRESS_NAME}-ingress-nginx-controller-admission
 
 install-redis:
 	@helm upgrade -i ${HELM_REDIS_NAME} enapter/keydb -f keydb-kind-values.yaml
