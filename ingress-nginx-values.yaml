@@ -7,5 +7,7 @@ controller:
     type: NodePort
   publishService:
     enabled: false
+  admissionWebhooks:
+    enabled: false
   nodeSelector:
     camunda/app: ingress
