@@ -22,9 +22,9 @@ tmux select-pane -U
 tmux split-window -h
 tmux resize-pane -R 20
 tmux split-window -h
-tmux send-keys -t $session 'watch -n1 "kubectl top pods -A --sum=true -l \"app.kubernetes.io/instance in (camunda,redis,ingress)\""' Enter
+tmux send-keys -t $session 'watch -n1 "kubectl top pods -A --sum=true -l \"app.kubernetes.io/instance in (camunda,redis,ingress)\" | awk \"{ printf \\\"%-21s %-12s %s\\\\n\\\", substr(\\\$2,1,20), \\\$3, \\\$4 }\""' Enter
 tmux select-pane -L
-tmux send-keys -t $session 'watch -n1 "kubectl get pods -A -l \"app.kubernetes.io/instance in (camunda,redis,ingress)\" -o custom-columns=\"NAME:.metadata.name,STATUS:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount,NODE:.spec.nodeName\""' Enter
+tmux send-keys -t $session 'watch -n1 "kubectl get pods -A -l \"app.kubernetes.io/instance in (camunda,redis,ingress)\" -o custom-columns=\"NAME:.metadata.name,STATUS:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount,NODE:.spec.nodeName\" | awk \"{ printf \\\"%-21s %-9s %-9s %s\\\\n\\\", substr(\\\$1,1,20), \\\$2, \\\$3, \\\$4 }\""' Enter
 tmux select-pane -L
 tmux send-keys -t $session 'docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}"' Enter
 
