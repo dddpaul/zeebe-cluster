@@ -4,10 +4,12 @@ controller:
     rollingUpdate:
       maxUnavailable: 1
   service:
-    type: NodePort
+    type: LoadBalancer
   publishService:
     enabled: false
   admissionWebhooks:
     enabled: false
+  hostPort:
+    enabled: true
   nodeSelector:
     camunda/app: ingress
