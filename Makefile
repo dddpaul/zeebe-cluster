@@ -114,3 +114,6 @@ operate-log:
 
 resource-capacity:
 	kubectl resource-capacity -u -p -n default -l "app.kubernetes.io/instance=camunda" --pod-count
+
+grpc-check:
+	@grpcurl -plaintext -proto gateway.proto zeebe.camunda.local:26500 gateway_protocol.Gateway/Topology

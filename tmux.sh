@@ -32,7 +32,7 @@ tmux send-keys -t $session 'docker stats --format "table {{.Name}}\t{{.CPUPerc}}
 tmux select-pane -D
 tmux split-window -h
 tmux resize-pane -R 40
-tmux send-keys -t $session 'watch -n1 "zbctl --insecure status"' Enter
+tmux send-keys -t $session 'watch -n1 "zbctl --insecure --address zeebe.camunda.local:26500 status"' Enter
 tmux split-window -v
 tmux send-keys -t $session 'watch -n1 "kubectl exec camunda-zeebe-0 -- du -h -d1 /usr/local/camunda/data/raft-partition/partitions/"' Enter
 
