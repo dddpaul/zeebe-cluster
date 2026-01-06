@@ -60,7 +60,7 @@ install-metrics:
 	@helm upgrade -i ${HELM_METRICS_NAME} ./helm-charts/kube-prometheus-stack-72.3.0.tgz -f prometheus-kind-values.yaml
 
 install-ingress:
-	@helm upgrade -i ${HELM_INGRESS_NAME} ingress-nginx/ingress-nginx -f ingress-nginx-values.yaml \
+	@helm upgrade -i ${HELM_INGRESS_NAME} ./helm-charts/ingress-nginx-4.14.1.tgz -f ingress-nginx-values.yaml \
 		--namespace ingress-nginx --create-namespace
 
 install-redis:
