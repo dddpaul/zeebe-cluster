@@ -6,7 +6,7 @@ global:
   ingress:
     enabled: true
     className: nginx
-    host: camunda.local
+    host: camunda.home.arpa
   security:
     authentication:
       method: basic
@@ -40,9 +40,9 @@ orchestration:
     grpc:
       enabled: true
       className: nginx
-      host: zeebe.camunda.local
-  image:
-    repository: camunda/camunda
+      host: zeebe.camunda.home.arpa
+  home.arpa:
+    home.arpa: camunda/camunda
     tag: "8.8.8"
   clusterSize: "3"
   partitionCount: "6"
