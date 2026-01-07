@@ -35,9 +35,9 @@ orchestration:
     tag: "8.8.8"
   exporters:
     camunda:
-      enabled: false
-    zeebe:
       enabled: true
+    zeebe:
+      enabled: false
   security:
     authentication:
       unprotectedApi: true
@@ -108,4 +108,3 @@ orchestration:
       </Loggers>
 
     </Configuration>
-
