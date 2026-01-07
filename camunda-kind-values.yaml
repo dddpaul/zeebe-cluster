@@ -117,8 +117,6 @@ orchestration:
       value: "true"
     - name: ZEEBE_BROKER_PROCESSING_ENABLEASYNCSCHEDULEDTASKS
       value: "true"
-    - name: ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_INDEX_NUMBEROFSHARDS
-      value: "6"
   service:
     extraPorts:
       - name: jmx
