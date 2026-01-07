@@ -272,3 +272,6 @@ gradle-app.setting
 
 # Aider AI Agent config
 .aider*
+
+# Temporal files
+diff/*
