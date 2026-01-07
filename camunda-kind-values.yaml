@@ -72,8 +72,8 @@ orchestration:
   persistenceType: memory
   javaOpts: >-
     -XX:+HeapDumpOnOutOfMemoryError
-    -XX:HeapDumpPath=/usr/local/zeebe/data
-    -XX:ErrorFile=/usr/local/zeebe/data/zeebe_error%p.log
+    -XX:HeapDumpPath=/usr/local/camunda/data
+    -XX:ErrorFile=/usr/local/camunda/data/zeebe_error%p.log
     -XX:+ExitOnOutOfMemoryError
     -XX:+UseShenandoahGC
     -Dcom.sun.management.jmxremote
