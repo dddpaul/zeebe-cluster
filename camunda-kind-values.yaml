@@ -43,9 +43,9 @@ orchestration:
     replicas: 1
   exporters:
     camunda:
-      enabled: false
-    zeebe:
       enabled: true
+    zeebe:
+      enabled: false
   security:
     authentication:
       unprotectedApi: true
