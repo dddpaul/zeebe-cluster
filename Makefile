@@ -87,7 +87,10 @@ install-camunda:
 	@kubectl wait --namespace default --for=condition=ready pod --selector=statefulset.kubernetes.io/pod-name=camunda-zeebe-2 --timeout=300s
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
-install: helm install-metrics install-ingress install-redis install-camunda
+install-kibana:
+	kubectl apply -f kibana.yaml
+
+install: helm install-metrics install-ingress install-redis install-kibana install-camunda
 
 uninstall:
 	@helm uninstall ${HELM_METRICS_NAME}

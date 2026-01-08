@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+        app.kubernetes.io/instance: kibana
+    spec:
+      nodeSelector:
+        elk/app: kibana
+      containers:
+        - name: kibana
+          image: bitnamilegacy/kibana:8.18.0
+          env:
+            - name: KIBANA_ELASTICSEARCH_URL
+              value: "http://camunda-elasticsearch:9200"
+          ports:
+            - containerPort: 5601
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: default
+spec:
+  selector:
+    app: kibana
+  ports:
+    - port: 5601
+      targetPort: 5601
+  type: ClusterIP
