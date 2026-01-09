@@ -32,8 +32,6 @@ prometheusServiceMonitor:
   labels:
     release: metrics
 
-# Reduce for Zeebe and Gateway the configured replicas and with that the required resources
-# to get it running locally
 orchestration:
   contextPath: "/"
   ingress:
@@ -41,26 +39,9 @@ orchestration:
       enabled: true
       className: nginx
       host: zeebe.camunda.home.arpa
-  home.arpa:
-    home.arpa: camunda/camunda
+  image:
+    repository: camunda/camunda
     tag: "8.8.8"
-  clusterSize: "3"
-  partitionCount: "6"
-  replicationFactor: "3"
-  cpuThreadCount: "4"
-  ioThreadCount: "2"
-  index:
-    replicas: 1
-  exporters:
-    camunda:
-      enabled: true
-    zeebe:
-      enabled: false
-  security:
-    authentication:
-      unprotectedApi: true
-    authorizations:
-      enabled: false
   resources:
     requests:
       cpu: 6000m
@@ -82,6 +63,10 @@ orchestration:
     -Djava.rmi.server.hostname=192.168.0.100
     -Dcom.sun.management.jmxremote.ssl=false
     -Dcom.sun.management.jmxremote.authenticate=false
+  readinessProbe:
+    probePath: /actuator/health/readiness
+  nodeSelector:
+    camunda/app: broker
   # extraVolumes:
   #   - name: runtime
   #     emptyDir:
@@ -89,44 +74,6 @@ orchestration:
   # extraVolumeMounts:
   #   - name: runtime
   #     mountPath: /usr/local/zeebe/runtime
-  readinessProbe:
-    probePath: /actuator/health/readiness
-  nodeSelector:
-    camunda/app: broker
-  env:
-    - name: TZ
-      value: "Europe/Moscow"
-    # Hint from https://github.com/camunda/zeebe/issues/14853 to get rid of non-critical DNS errors in Grafana
-    - name: ZEEBE_BROKER_NETWORK_ADVERTISEDHOST
-      value: $(K8S_NAME).$(K8S_SERVICE_NAME)
-    - name: ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS
-      value: $(K8S_SERVICE_NAME)-0.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-1.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-2.$(K8S_SERVICE_NAME):26502
-    - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
-      value: "false"
-    - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
-      value: "aimd"
-    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_INITIALLIMIT
-      value: "1000"
-    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_MINLIMIT
-      value: "100"
-    - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_MAXLIMIT
-      value: "2000"
-    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
-      value: "true"
-    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
-      value: "0s"
-    - name: ZEEBE_BROKER_EXPERIMENTAL_ROCKSDB_DISABLEWAL
-      value: "true"
-    - name: ZEEBE_BROKER_DATA_SNAPSHOTPERIOD
-      value: "1m"
-    # - name: ZEEBE_BROKER_DATA_RUNTIMEDIRECTORY
-    #   value: "runtime"
-    - name: ZEEBE_BROKER_EXPERIMENTAL_FEATURES_ENABLEACTORMETRICS
-      value: "true"
-    - name: ZEEBE_BROKER_EXPERIMENTAL_FEATURES_ENABLEYIELDINGDUEDATECHECKER
-      value: "true"
-    - name: ZEEBE_BROKER_PROCESSING_ENABLEASYNCSCHEDULEDTASKS
-      value: "true"
   service:
     extraPorts:
       - name: jmx
@@ -137,45 +84,83 @@ orchestration:
         protocol: TCP
         port: 1100
         targetPort: 1100
-  # This option rewrites whole application.yaml config for zeebe broker
-  # configuration: |
-  #   zeebe:
-  #     broker:
-  #       exporters: {}
-  #       gateway:
-  #         enable: true
-  #         network:
-  #           port: 26500
-  #         security:
-  #           enabled: false
-  #           authentication:
-  #             mode: none
-  #       network:
-  #         host: 0.0.0.0
-  #         commandApi:
-  #           port: 26501
-  #         internalApi:
-  #           port: 26502
-  #         monitoringApi:
-  #           port: "9600"
-  #       cluster:
-  #         clusterSize: "3"
-  #         replicationFactor: "3"
-  #         partitionsCount: "6"
-  #         clusterName: camunda-zeebe
-  #       threads:
-  #         cpuThreadCount: "4"
-  #         ioThreadCount: "2"
-  #       flowControl:
-  #         write:
-  #           enabled: true
-  #           rampUp: 0
-  #           limit: 10000
-  #           throttling:
-  #             enabled: true
-  #             acceptableBacklog: 1000
-  #             minimumLimit: 5000
-  #             resolution: 15s
+
+  # Dynamic K8S variables must stay as env vars (runtime substitution)
+  env:
+    - name: TZ
+      value: "Europe/Moscow"
+    # These use K8S downward API - must remain as env vars
+    - name: ZEEBE_BROKER_NETWORK_ADVERTISEDHOST
+      value: "$(K8S_NAME).$(K8S_SERVICE_NAME)"
+    - name: ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS
+      value: "$(K8S_SERVICE_NAME)-0.$(K8S_SERVICE_NAME):26502,$(K8S_SERVICE_NAME)-1.$(K8S_SERVICE_NAME):26502,$(K8S_SERVICE_NAME)-2.$(K8S_SERVICE_NAME):26502"
+
+  # ALL broker and camunda configuration in YAML format
+  configuration: |
+    zeebe:
+      broker:
+        gateway:
+          enable: true
+          network:
+            port: 26500
+          security:
+            enabled: false
+        cluster:
+          clusterSize: 3
+          partitionsCount: 6
+          replicationFactor: 3
+          raft:
+            flush:
+              enabled: true
+              delayTime: "0s"
+        threads:
+          cpuThreadCount: 4
+          ioThreadCount: 2
+        data:
+          snapshotPeriod: "1m"
+          # runtimeDirectory: "runtime"
+        backpressure:
+          enabled: false
+          algorithm: "aimd"
+          aimd:
+            initialLimit: 1000
+            minLimit: 100
+            maxLimit: 2000
+        processing:
+          enableAsyncScheduledTasks: true
+        experimental:
+          rocksdb:
+            disableWal: true
+          features:
+            enableActorMetrics: true
+            enableYieldingDueDateChecker: true
+        exporters:
+          camundaExporter:
+            className: io.camunda.exporter.CamundaExporter
+            args:
+              connect:
+                type: elasticsearch
+                url: http://elasticsearch:9200
+                dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ"
+                socketTimeout: 1000
+                connectTimeout: 1000
+              bulk:
+                delay: 5
+                size: 1000
+              index:
+                numberOfShards: 1
+                numberOfReplicas: 1
+              history:
+                elsRolloverDateFormat: "date"
+                rolloverBatchSize: 100
+                waitPeriodBeforeArchiving: "1h"
+                delayBetweenRuns: 2000
+                maxDelayBetweenRuns: 60000
+    camunda:
+      security:
+        authentication:
+          unprotectedApi: true
+        authorizations:
 
 # Use values for inbound mode from here https://github.com/camunda/camunda-platform-helm/issues/976
 connectors:
