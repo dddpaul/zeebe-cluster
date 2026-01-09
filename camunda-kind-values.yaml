@@ -82,25 +82,32 @@ orchestration:
     -Djava.rmi.server.hostname=192.168.0.100
     -Dcom.sun.management.jmxremote.ssl=false
     -Dcom.sun.management.jmxremote.authenticate=false
-  # extraVolumes:
-  #   - name: runtime
-  #     emptyDir:
-  #       medium: "Memory"
-  # extraVolumeMounts:
-  #   - name: runtime
-  #     mountPath: /usr/local/zeebe/runtime
   readinessProbe:
     probePath: /actuator/health/readiness
   nodeSelector:
     camunda/app: broker
+
   env:
     - name: TZ
       value: "Europe/Moscow"
-    # Hint from https://github.com/camunda/zeebe/issues/14853 to get rid of non-critical DNS errors in Grafana
+
+    # K8S dynamic variables (must stay as env vars)
     - name: ZEEBE_BROKER_NETWORK_ADVERTISEDHOST
-      value: $(K8S_NAME).$(K8S_SERVICE_NAME)
+      value: "$(K8S_NAME).$(K8S_SERVICE_NAME)"
     - name: ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS
-      value: $(K8S_SERVICE_NAME)-0.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-1.$(K8S_SERVICE_NAME):26502, $(K8S_SERVICE_NAME)-2.$(K8S_SERVICE_NAME):26502
+      value: "$(K8S_SERVICE_NAME)-0.$(K8S_SERVICE_NAME):26502,$(K8S_SERVICE_NAME)-1.$(K8S_SERVICE_NAME):26502,$(K8S_SERVICE_NAME)-2.$(K8S_SERVICE_NAME):26502"
+
+    # Unified config (camunda.* prefix) - no deprecation warnings
+    - name: CAMUNDA_DATA_SNAPSHOTPERIOD
+      value: "1m"
+    - name: CAMUNDA_CLUSTER_RAFT_FLUSHENABLED
+      value: "true"
+    - name: CAMUNDA_CLUSTER_RAFT_FLUSHDELAY
+      value: "0s"
+    - name: CAMUNDA_DATA_PRIMARYSTORAGE_ROCKSDB_WALDISABLED
+      value: "true"
+
+    # Backpressure settings (check if unified equivalent exists, otherwise keep legacy)
     - name: ZEEBE_BROKER_BACKPRESSURE_ENABLED
       value: "false"
     - name: ZEEBE_BROKER_BACKPRESSURE_ALGORITHM
@@ -111,32 +118,29 @@ orchestration:
       value: "100"
     - name: ZEEBE_BROKER_BACKPRESSURE_AIMD_MAXLIMIT
       value: "2000"
-    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
-      value: "true"
-    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
-      value: "0s"
-    - name: ZEEBE_BROKER_EXPERIMENTAL_ROCKSDB_DISABLEWAL
-      value: "true"
-    - name: ZEEBE_BROKER_DATA_SNAPSHOTPERIOD
-      value: "1m"
-    # - name: ZEEBE_BROKER_DATA_RUNTIMEDIRECTORY
-    #   value: "runtime"
+
+    # Experimental features (check if unified equivalent exists)
     - name: ZEEBE_BROKER_EXPERIMENTAL_FEATURES_ENABLEACTORMETRICS
       value: "true"
     - name: ZEEBE_BROKER_EXPERIMENTAL_FEATURES_ENABLEYIELDINGDUEDATECHECKER
       value: "true"
     - name: ZEEBE_BROKER_PROCESSING_ENABLEASYNCSCHEDULEDTASKS
       value: "true"
+
+    # Exporter settings - retention is under history, use correct path
     - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_INDEX_NUMBEROFSHARDS
       value: "3"
+    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_INDEX_NUMBEROFREPLICAS
+      value: "0"
     - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_HISTORY_ROLLOVERINTERVAL
       value: "1h"
     - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_HISTORY_ELSROLLOVERDATEFORMAT
       value: "yyyy-MM-dd-HH"
-    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_RETENTION_ENABLED
-      value: "enabled"
-    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_RETENTION_MINIMUMAGE
+    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_HISTORY_RETENTION_ENABLED
+      value: "true"
+    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_HISTORY_RETENTION_MINIMUMAGE
       value: "2h"
+
   service:
     extraPorts:
       - name: jmx
@@ -147,45 +151,6 @@ orchestration:
         protocol: TCP
         port: 1100
         targetPort: 1100
-  # This option rewrites whole application.yaml config for zeebe broker
-  # configuration: |
-  #   zeebe:
-  #     broker:
-  #       exporters: {}
-  #       gateway:
-  #         enable: true
-  #         network:
-  #           port: 26500
-  #         security:
-  #           enabled: false
-  #           authentication:
-  #             mode: none
-  #       network:
-  #         host: 0.0.0.0
-  #         commandApi:
-  #           port: 26501
-  #         internalApi:
-  #           port: 26502
-  #         monitoringApi:
-  #           port: "9600"
-  #       cluster:
-  #         clusterSize: "3"
-  #         replicationFactor: "3"
-  #         partitionsCount: "6"
-  #         clusterName: camunda-zeebe
-  #       threads:
-  #         cpuThreadCount: "4"
-  #         ioThreadCount: "2"
-  #       flowControl:
-  #         write:
-  #           enabled: true
-  #           rampUp: 0
-  #           limit: 10000
-  #           throttling:
-  #             enabled: true
-  #             acceptableBacklog: 1000
-  #             minimumLimit: 5000
-  #             resolution: 15s
 
 # Use values for inbound mode from here https://github.com/camunda/camunda-platform-helm/issues/976
 connectors:

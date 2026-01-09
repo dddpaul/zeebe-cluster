@@ -101,6 +101,15 @@ uninstall:
 destroy:
 	@kind delete cluster --name ${CLUSTER}
 
+config:
+	@echo "# Unified camunda.* config"
+	@curl -s http://localhost:9600/actuator/configprops | \
+		jq '{camunda: .contexts.camunda.beans["camunda-io.camunda.configuration.Camunda"].properties}' | yq -P .
+	@echo ""
+	@echo "# Legacy zeebe.broker.* config"
+	@curl -s http://localhost:9600/actuator/configprops | \
+		jq '{zeebe: {broker: .contexts.camunda.beans["zeebe.broker-io.camunda.configuration.beans.LegacyBrokerBasedProperties"].properties}}' | yq -P .
+
 rebalance:
 	@curl -X POST http://127.0.0.1:9600/actuator/rebalance
 
