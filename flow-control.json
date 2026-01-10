@@ -7,7 +7,7 @@
             "enabled": true,
             "acceptableBacklog": 1000000,
             "minimumLimit": 1000,
-            "resolution": 15
+            "resolution": 30
         }
     }
 }
