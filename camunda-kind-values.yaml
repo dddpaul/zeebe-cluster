@@ -211,6 +211,8 @@ elasticsearch:
       limits:
         cpu: "3000m"
         memory: "3000M"
+    extraConfig:
+      search.max_open_scroll_context: 2000
   extraEnvVars:
     - name: TZ
       value: "Europe/Moscow"
