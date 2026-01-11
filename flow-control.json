@@ -5,7 +5,7 @@
         "limit": 15000,
         "throttling": {
             "enabled": true,
-            "acceptableBacklog": 1000000,
+            "acceptableBacklog": 1500000,
             "minimumLimit": 1000,
             "resolution": 30
         }
