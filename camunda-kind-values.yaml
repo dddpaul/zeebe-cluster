@@ -206,10 +206,10 @@ elasticsearch:
       camunda/app: elasticsearch
     resources:
       requests:
-        cpu: "2000m"
+        cpu: "3000m"
         memory: "3000M"
       limits:
-        cpu: "2000m"
+        cpu: "3000m"
         memory: "3000M"
   extraEnvVars:
     - name: TZ
