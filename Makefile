@@ -38,8 +38,10 @@ load-zeebe:
 load-es:
 	@docker pull bitnamilegacy/elasticsearch:8.18.0
 	@docker pull bitnamilegacy/kibana:8.18.0
-	@kind load docker-image bitnamilegacy/elasticsearch:8.18.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9 &
-	@kind load docker-image bitnamilegacy/kibana:8.18.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker7
+	@docker pull bitnamilegacy/os-shell:12-debian-12-r43
+	@kind load docker-image bitnamilegacy/kibana:8.18.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker7 &
+	@kind load docker-image bitnamilegacy/os-shell:12-debian-12-r43 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9 &
+	@kind load docker-image bitnamilegacy/elasticsearch:8.18.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker7,${CLUSTER}-worker8,${CLUSTER}-worker9
 
 # worker10 runs connectors
 load-connectors:
