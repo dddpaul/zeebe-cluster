@@ -32,7 +32,7 @@ load-redis:
 #worker3-5 run brokers, worker6 runs operate
 load-zeebe:
 	@docker pull camunda/camunda:8.8.8
-	@kind load docker-image camunda/camunda:8.8.8 --name ${CLUSTER} --nodes ${CLUSTER}-worker2,${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
+	@kind load docker-image camunda/camunda:8.8.8 --name ${CLUSTER} --nodes ${CLUSTER}-worker3,${CLUSTER}-worker4,${CLUSTER}-worker5
 
 # worker7 runs kibana, worker7-9 run elasticsearch
 load-es:
