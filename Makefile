@@ -17,7 +17,9 @@ load-metrics:
 	@docker pull registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
 	@kind load docker-image registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0 --name ${CLUSTER} --nodes ${CLUSTER}-worker &
 	@docker pull quay.io/prometheus/node-exporter:v1.9.1
-	@kind load docker-image quay.io/prometheus/node-exporter:v1.9.1 --name ${CLUSTER}
+	@kind load docker-image quay.io/prometheus/node-exporter:v1.9.1 --name ${CLUSTER} &
+	@docker pull quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0
+	@kind load docker-image quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0 --name ${CLUSTER}
 
 # worker2 runs ingress
 load-ingress:
