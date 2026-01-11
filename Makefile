@@ -46,7 +46,7 @@ load-connectors:
 	@docker pull camunda/connectors-bundle:8.8.2
 	@kind load docker-image camunda/connectors-bundle:8.8.2 --name ${CLUSTER} --nodes ${CLUSTER}-worker10
 
-load: load-metrics load-ingress load-redis load-zeebe load-es
+load: load-metrics load-ingress load-redis load-es load-zeebe
 
 helm:
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
